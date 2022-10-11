@@ -2,12 +2,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useState, useEffect} from "react";
 
-// calc_parser.add_argument('quantity', required=True, location='json', type=int)
-// calc_parser.add_argument('width', required=True, location='json', type=int)
-// calc_parser.add_argument('height', required=True, location='json', type=int)
-// calc_parser.add_argument('bleeds', required=True, location='json', type=int)
-// calc_parser.add_argument('template_id', required=False, default=None, location='json', type=int)
-
 function Calculator() {
     const [templateId, setTemplateId] = useState('');
     function onSubmit(e) {
