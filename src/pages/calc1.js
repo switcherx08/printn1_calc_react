@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useState, useEffect} from "react";
-import axios from "axios";
+
 
 function Calculator1() {
     const [calc, setCalc] = useState([])
@@ -19,11 +19,18 @@ function Calculator1() {
 
 
     useEffect(() => {
-        axios.get(url, {params: params})
-            .then(response => {
-                console.log(response);
-                setCalc(response.data.calculation)
-            });
+        const fetchCalculation = async () => {
+            const response = await fetch(url + '?' + new URLSearchParams(params));
+            const respJson = await response.json();
+            if (response.statusCode !== 200) {
+                throw new Error(respJson);
+            }
+            return respJson;
+        };
+        fetchCalculation().then(response => {
+            console.log(response);
+            setCalc(response.calculation);
+        });
     }, []);
 
 
@@ -54,13 +61,16 @@ function Calculator1() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formMaterial">
                 <Form.Select aria-label="Материал">
-                    <option>Материал</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+
+                    <option selected disabled>Материал</option>
+                    {Object.entries({1: 'one', 2: 'two', 3: 'three'}).map(([key, value]) => {
+                        return <option value={key} key={'material-option-' + key}> {value}</option>;
+                    })}
+
+
                 </Form.Select>
             </Form.Group>
-              <Form.Group className="mb-3" controlId="formMaterial">
+            <Form.Group className="mb-3" controlId="formMaterial">
                 <Form.Select aria-label="Режим расчета">
                     <option>Режим расчета</option>
                     <option value="1">One</option>

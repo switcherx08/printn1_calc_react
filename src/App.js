@@ -6,7 +6,7 @@ import Calculator1 from "./pages/calc1";
 
 function App() {
   return (
-      <Calculator1 />
+     <Calculator1 />
   );
 }
 
