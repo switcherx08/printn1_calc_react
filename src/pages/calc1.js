@@ -2,37 +2,63 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useState, useEffect} from "react";
 
+//
+// const [calc, setCalc] = useState([])
+// const url = 'http://localhost:9500/api/v1/calculation'
+// const params = {
+//     quantity: 100,
+//     width: 210,
+//     height: 297,
+//     bleeds: 3,
+//     chromaticity_front: 4,
+//     chromaticity_back: 0,
+//     material_id: 1,
+//     calculation_mode_id: 1
+// }
+//
+//
+// useEffect(() => {
+//     const fetchCalculation = async () => {
+//         const response = await fetch(url + '?' + new URLSearchParams(params));
+//         const respJson = await response.json();
+//         if (response.statusCode !== 200) {
+//             throw new Error(respJson);
+//         }
+//         return respJson;
+//     };
+//     fetchCalculation().then(response => {
+//         console.log(response);
+//         setCalc(response.calculation);
+//     });
+// }, []);
+
 
 function Calculator1() {
-    const [calc, setCalc] = useState([])
-    const url = 'http://localhost:9500/api/v1/calculation'
-    const params = {
-        quantity: 100,
-        width: 210,
-        height: 297,
-        bleeds: 3,
-        chromaticity_front: 4,
-        chromaticity_back: 0,
-        material_id: 1,
-        calculation_mode_id: 1
-    }
 
+    const [matChoice, setMatChoice] = useState([])
+    const matUrl = 'http://127.0.0.1:9500/api/v1/material'
 
     useEffect(() => {
-        const fetchCalculation = async () => {
-            const response = await fetch(url + '?' + new URLSearchParams(params));
+        const fetchChoice = async () => {
+            const response = await fetch(matUrl);
             const respJson = await response.json();
-            if (response.statusCode !== 200) {
-                throw new Error(respJson);
+            if (response.status !== 200) {
+                console.log('ERROR')
+                console.log(respJson)
+                // throw new Error(respJson);
             }
             return respJson;
         };
-        fetchCalculation().then(response => {
+        fetchChoice().then(response => {
             console.log(response);
-            setCalc(response.calculation);
+            setMatChoice(response.materials);
         });
     }, []);
 
+
+    const mapChoiceArr = matChoice.map((m) => {
+                        return <option value={m.id} key={'material-option-' + m.id}> {m.name}</option>;
+                    })
 
     return (<div>
         <Form>
@@ -56,21 +82,18 @@ function Calculator1() {
                 <Form.Control type="" placeholder=""/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formChromBack">
-                <Form.Label>Цветность оборота</Form.Label>
+                <Form.Label>Цветность оборот</Form.Label>
                 <Form.Control type="" placeholder=""/>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="formMaterial">
-                <Form.Select aria-label="Материал">
-
+                <Form.Select aria-label="Режим расчета">
                     <option selected disabled>Материал</option>
-                    {Object.entries({1: 'one', 2: 'two', 3: 'three'}).map(([key, value]) => {
-                        return <option value={key} key={'material-option-' + key}> {value}</option>;
-                    })}
-
+                    {mapChoiceArr}
 
                 </Form.Select>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formMaterial">
+            <Form.Group className="mb-3" controlId="formMaterial1">
                 <Form.Select aria-label="Режим расчета">
                     <option>Режим расчета</option>
                     <option value="1">One</option>
@@ -83,7 +106,7 @@ function Calculator1() {
                 Submit
             </Button>
         </Form>
-        {calc.name}
+
     </div>)
 }
 
