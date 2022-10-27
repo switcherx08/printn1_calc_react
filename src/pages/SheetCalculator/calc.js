@@ -24,7 +24,7 @@ function Calculator() {
     let handleSubmit = (e) => {
         e.preventDefault();
         setAllValues({...allValues, [e.target.name]: e.target.value});
-        GetCalculation(allValues)
+        GetCalculation({values: allValues});
     }
 
     const allMaterials = FetchMaterial()
