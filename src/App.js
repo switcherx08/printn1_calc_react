@@ -3,7 +3,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Calculator1 from "./pages/calc1";
 import Navbar from "./pages/Navbar/Navbar";
-import Test from "./pages/test";
+import Calculator from "./pages/SheetCalculator/calc";
+import TestCalculate from "./pages/test1";
 
 function App() {
     return (
@@ -11,10 +12,9 @@ function App() {
             <Navbar/>
             <main>
                 <Routes>
-                    <Route path='/calc' element={< Calculator1/>}/>
-                    <Route path='/test' element={< Test/>}/>
-
-
+                    <Route path='/calc' element={< Calculator />}/>
+                    <Route path='/test' element={< Calculator1 />}/>
+                    <Route path='/test1' element={< TestCalculate />}/>
                 </Routes>
 
             </main>

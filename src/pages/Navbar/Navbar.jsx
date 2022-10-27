@@ -14,6 +14,7 @@ function BasicExample() {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/calc" href='#calc'>Calculate Sheet Production</Nav.Link>
             <Nav.Link as={Link} to="/test" href="#test">test</Nav.Link>
+             <Nav.Link as={Link} to="/test1" href="#test1">test1</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
