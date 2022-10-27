@@ -28,44 +28,44 @@ export function FetchMaterial(props) {
 }
 
 
-// export function GetCalculation() {
-//
-//     const [calc, setCalc] = useState([])
-//     const url = 'http://localhost:9500/api/v1/calculation'
-//         const params = {
-//             quantity: allValues.quantity,
-//             width: allValues.width,
-//             height: allValues.height,
-//             bleeds: allValues.bleeds,
-//             chromaticity_front: allValues.chromaticity_front,
-//             chromaticity_back: allValues.chromaticity_back,
-//             material_id: allValues.material_id,
-//             calculation_mode_id: allValues.calculation_mode_id
-//         };
-//
-//     useEffect(() => {
-//         let sendData = async () => {
-//             const response = await fetch(url + '?' + new URLSearchParams(params));
-//             const respJson = await response.json();
-//             if (response.status !== 200) {
-//                 throw new Error(respJson);
-//             }
-//             console.log(respJson)
-//             return respJson;
-//         };
-//         sendData().then(response => {
-//             setCalc(response.calculation)
-//         });
-//     }, [])
-//
-//
-//     return (
-//         <div>
-//             <h1>Calc below</h1>
-//             <h4>{calc.name}</h4>
-//         </div>
-//     )
-// }
+export function GetCalculation(props) {
+
+    const [calc, setCalc] = useState([])
+    const url = 'http://localhost:9500/api/v1/calculation'
+        const params = {
+            quantity: props.values.quantity,
+            width: props.values.width,
+            height: props.values.height,
+            bleeds: props.values.bleeds,
+            chromaticity_front: props.values.chromaticity_front,
+            chromaticity_back: props.values.chromaticity_back,
+            material_id: props.values.material_id,
+            calculation_mode_id: props.values.calculation_mode_id
+        };
+
+    useEffect(() => {
+        let sendData = async () => {
+            const response = await fetch(url + '?' + new URLSearchParams(params));
+            const respJson = await response.json();
+            if (response.status !== 200) {
+                throw new Error(respJson);
+            }
+            console.log(respJson)
+            return respJson;
+        };
+        sendData().then(response => {
+            setCalc(response.calculation)
+        });
+    }, [])
+
+
+    return (
+        <div>
+            <h4>{calc.name}</h4>
+            <h2>Стоимость: {calc.total}</h2>
+        </div>
+    )
+}
 
 
 

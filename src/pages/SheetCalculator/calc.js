@@ -1,13 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {useState, useEffect} from "react";
+import {useState} from "react";
 
-import {FetchMaterial} from "./fetchData";
+import {FetchMaterial, GetCalculation} from "./fetchData";
 
-function Calculator(props) {
+
+function Calculator() {
     let initParams = {
         quantity: 100,
-        width: 297,
+        width: 148,
         height: 210,
         bleeds: 3,
         chromaticity_front: 4,
@@ -17,45 +18,20 @@ function Calculator(props) {
     }
     const [allValues, setAllValues] = useState(initParams);
     const changeHandler = e => {
-        setAllValues({...allValues, [e.target.name]: e.target.value})
+        setAllValues({...allValues, [e.target.name]: e.target.value});
+    }
+
+    let handleSubmit = (e) => {
+        e.preventDefault();
+        setAllValues({...allValues, [e.target.name]: e.target.value});
+        GetCalculation(allValues)
     }
 
     const allMaterials = FetchMaterial()
 
-    // problem is HERE
-    function GetCalculation() {
-        const url = 'http://localhost:9500/api/v1/calculation'
-        const params = {
-            quantity: allValues.quantity,
-            width: allValues.width,
-            height: allValues.height,
-            bleeds: allValues.bleeds,
-            chromaticity_front: allValues.chromaticity_front,
-            chromaticity_back: allValues.chromaticity_back,
-            material_id: allValues.material_id,
-            calculation_mode_id: allValues.calculation_mode_id
-        }
-
-        const [calc, setCalc] = useState([])
-
-       useEffect(() => {
-        let sendData = async () => {
-            const response = await fetch(url + '?' + new URLSearchParams(params));
-            const respJson = await response.json();
-            if (response.status !== 200) {
-                throw new Error(respJson);
-            }
-            console.log(respJson)
-            return respJson;
-        };
-        sendData().then(response => {
-            setCalc(response.calculation)
-        });
-    }, [])
-    }
-
     return (<div>
-        <Form>
+
+        <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formQuantity">
                 <Form.Label>Количество</Form.Label>
                 <Form.Control type="number" value={allValues.quantity} name="quantity" placeholder="Quantity"
@@ -105,10 +81,12 @@ function Calculator(props) {
                 Submit
             </Button>
         </Form>
-        <div>{allValues.quantity}</div>
-        <div>{`Width: ${allValues.width}`}</div>
-        <div>{allValues.material_id}</div>
-        <div></div>
+        <GetCalculation values={allValues}/>
+        {/*<div>{allValues.quantity}</div>*/}
+        {/*<div>{`Width: ${allValues.width}`}</div>*/}
+        {/*<div>{allValues.material_id}</div>*/}
+        {/*<div><h2>{calc.total}</h2></div>*/}
+        {/*<div>{console.log(allValues)}</div>*/}
 
 
     </div>)
