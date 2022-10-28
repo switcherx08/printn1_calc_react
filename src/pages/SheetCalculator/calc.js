@@ -21,7 +21,7 @@ function Calculator() {
 
     const [formData, setFormData] = useState(initParams);
     const [calcData, setCalcData] = useState(null);
-    const [chromOptions, setChromOptions] = useState(null)
+    const [chromOptions, setChromOptions] = useState([])
 
     let setData = (e) => setFormData({...formData, [e.target.name]: e.target.value});
 
@@ -41,6 +41,7 @@ function Calculator() {
         console.log('works')
     };
 
+
     return (<div className="container-sm">
         <h3>Калькулятор листовой продукции</h3>
         <div className="row">
@@ -48,9 +49,17 @@ function Calculator() {
                 <Form.Group className="mb-3" controlId="formMode">
                     <Form.Label>Тип печати</Form.Label>
                     <Form.Select aria-label="Режим расчета" placeholder="Mode">
-                        <option selected disabled value="1" name="calculation_mode">Цифровая печать</option>
+                        <option selected disabled value={1} name="calculation_mode">Цифровая печать</option>
                     </Form.Select>
                 </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formMaterial">
+                    <Form.Select aria-label="Материал" name='material_id' onChange={changeHandler}>
+                        <option selected value="0">Без материала</option>
+                        <MaterialOptionList x="None" y="JAVASCRIPT" callBack={r => console.log('123')}/>
+                    </Form.Select>
+                </Form.Group>
+
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formQuantity">
                         <Form.Label>Количество</Form.Label>
@@ -69,36 +78,29 @@ function Calculator() {
                         <Form.Label>Высота изделия</Form.Label>
                         <Form.Control type="number" value={formData.height} name="height" placeholder="height"
                                       onChange={changeHandler}/> </Form.Group>
-                    {/*<Form.Group className="mb-3" controlId="formChromFront">*/}
-                    {/*    <Form.Label>Цветность лицо</Form.Label>*/}
-                    {/*    <Form.Control type="number" value={formData.chromaticity_front} name="chromaticity_front"*/}
-                    {/*                  placeholder="chromaticity_front"*/}
-                    {/*                  onChange={changeHandler}/>*/}
-                    {/*</Form.Group>*/}
 
                     <Form.Group className="mb-3" controlId="formChromFront">
                         <Form.Label>Цветность лицо</Form.Label>
                         <Form.Select aria-label="Цветность" name="chromaticity_front" onClick={chromHandler}
                                      onChange={changeHandler}>
-                            {chromOptions.map((c) => {
-                                return <option value={c.colorfulnes} key={'chrom' + c.id}> {c.name} </option>
-                            })}
+                            {
+                                chromOptions.map((c, idx) => {
+                                    return <option value={c.id} key={'chrom-' + idx}> {c.colorfulnes} </option>
+                                })}
                         </Form.Select>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formChromBack">
                         <Form.Label>Цветность оборот</Form.Label>
-                        <Form.Control type="number" value={formData.chromaticity_back} name="chromaticity_back"
-                                      placeholder="chromaticity_back"
-                                      onChange={changeHandler}/>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formMaterial">
-                        <Form.Select aria-label="Материал" name='material_id' onChange={changeHandler}>
-                            <option selected>Без материала</option>
-                            <MaterialOptionList x="None" y="JAVASCRIPT" callBack={r => console.log('123')}/>
+                        <Form.Select aria-label="Цветность" name="chromaticity_back" onClick={chromHandler}
+                                     onChange={changeHandler}>
+                            {chromOptions.map((c, idx) => {
+                                return <option value={c.id} key={'chrom-' + idx}> {c.colorfulnes} </option>
+                            })}
                         </Form.Select>
                     </Form.Group>
+
+
                     <Button variant="primary" type="submit">
                         Расчет
                     </Button>
@@ -110,9 +112,14 @@ function Calculator() {
 
             <div className="col-sm">
                 <Alert>
-                    <div>{calcData?.calculation.total}</div>
-                    <div>Цветность лицо: {formData.chromaticity_front}</div>
-                    <div></div>
+                    <div>
+                        <h5>{calcData?.calculation.name}</h5>
+                        <p>Цветность лицо: {calcData?.calculation.chromaticity_front}</p>
+                        <p>Цветность оборот: {calcData?.calculation.chromaticity_back} </p>
+                        <p>Стоимость тиража: <b>{calcData?.calculation.total}</b> руб.</p>
+                        <p>Стоимость постпечатных опций:  <b>{calcData?.calculation.postpress_total}</b> руб. </p>
+                    </div>
+
                 </Alert>
                 <div>{}</div>
             </div>
