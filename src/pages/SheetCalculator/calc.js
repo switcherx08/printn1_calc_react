@@ -21,9 +21,12 @@ function Calculator() {
 
     const [formData, setFormData] = useState(initParams);
     const [calcData, setCalcData] = useState(null);
+    const [chromOptions, setChromOptions] = useState(null)
+
+    let setData = (e) => setFormData({...formData, [e.target.name]: e.target.value});
 
     const changeHandler = e => {
-        setFormData({...formData, [e.target.name]: e.target.value});
+        setData(e)
         console.log(formData);
     };
 
@@ -32,6 +35,11 @@ function Calculator() {
         fetchCalculation(formData).then(r => setCalcData(r));
     };
 
+    const chromHandler = (e) => {
+        setData(e)
+        fetchChromList().then(r => setChromOptions(r));
+        console.log('works')
+    };
 
     return (<div className="container-sm">
         <h3>Калькулятор листовой продукции</h3>
@@ -40,7 +48,7 @@ function Calculator() {
                 <Form.Group className="mb-3" controlId="formMode">
                     <Form.Label>Тип печати</Form.Label>
                     <Form.Select aria-label="Режим расчета" placeholder="Mode">
-                        <option selected disabled value="1" name="calc_mode">Цифровая печать</option>
+                        <option selected disabled value="1" name="calculation_mode">Цифровая печать</option>
                     </Form.Select>
                 </Form.Group>
                 <Form onSubmit={handleSubmit}>
@@ -61,12 +69,23 @@ function Calculator() {
                         <Form.Label>Высота изделия</Form.Label>
                         <Form.Control type="number" value={formData.height} name="height" placeholder="height"
                                       onChange={changeHandler}/> </Form.Group>
+                    {/*<Form.Group className="mb-3" controlId="formChromFront">*/}
+                    {/*    <Form.Label>Цветность лицо</Form.Label>*/}
+                    {/*    <Form.Control type="number" value={formData.chromaticity_front} name="chromaticity_front"*/}
+                    {/*                  placeholder="chromaticity_front"*/}
+                    {/*                  onChange={changeHandler}/>*/}
+                    {/*</Form.Group>*/}
+
                     <Form.Group className="mb-3" controlId="formChromFront">
                         <Form.Label>Цветность лицо</Form.Label>
-                        <Form.Control type="number" value={formData.chromaticity_front} name="chromaticity_front"
-                                      placeholder="chromaticity_front"
-                                      onChange={changeHandler}/>
+                        <Form.Select aria-label="Цветность" name="chromaticity_front" onClick={chromHandler}
+                                     onChange={changeHandler}>
+                            {chromOptions.map((c) => {
+                                return <option value={c.colorfulnes} key={'chrom' + c.id}> {c.name} </option>
+                            })}
+                        </Form.Select>
                     </Form.Group>
+
                     <Form.Group className="mb-3" controlId="formChromBack">
                         <Form.Label>Цветность оборот</Form.Label>
                         <Form.Control type="number" value={formData.chromaticity_back} name="chromaticity_back"
@@ -93,7 +112,7 @@ function Calculator() {
                 <Alert>
                     <div>{calcData?.calculation.total}</div>
                     <div>Цветность лицо: {formData.chromaticity_front}</div>
-
+                    <div></div>
                 </Alert>
                 <div>{}</div>
             </div>

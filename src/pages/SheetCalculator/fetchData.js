@@ -62,7 +62,7 @@ export function fetchChromList() {
 
     return fetchData().then(response => {
         console.log(response);
-        return response;
+        return response.chromaticities;
     });
 }
 
