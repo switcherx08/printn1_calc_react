@@ -2,39 +2,39 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useState} from "react";
 
-import {FetchMaterial, GetCalculation} from "./fetchData";
+import {fetchCalculation, MaterialOptionList} from "./fetchData";
 
 
 function Calculator() {
     let initParams = {
         quantity: 100,
         width: 148,
-        height: 210,
         bleeds: 3,
+        height: 210,
         chromaticity_front: 4,
         chromaticity_back: 0,
         material_id: 1,
         calculation_mode_id: 1
-    }
-    const [allValues, setAllValues] = useState(initParams);
+    };
+
+    const [formData, setFormData] = useState(initParams);
+    const [calcData, setCalcData] = useState(null);
+
     const changeHandler = e => {
-        setAllValues({...allValues, [e.target.name]: e.target.value});
-    }
+        setFormData({...formData, [e.target.name]: e.target.value});
+        console.log(formData);
+    };
 
-    let handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setAllValues({...allValues, [e.target.name]: e.target.value});
-        GetCalculation({values: allValues});
-    }
+        fetchCalculation(formData).then(r => setCalcData(r));
+    };
 
-    const allMaterials = FetchMaterial()
-
-    return (<div>
-
+    return (<>
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formQuantity">
                 <Form.Label>Количество</Form.Label>
-                <Form.Control type="number" value={allValues.quantity} name="quantity" placeholder="Quantity"
+                <Form.Control type="number" value={formData.quantity} name="quantity" placeholder="Quantity"
                               onChange={changeHandler}/>
                 <Form.Text className="text-muted">
                     Количество экземпляров тиража
@@ -42,22 +42,22 @@ function Calculator() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formWidth">
                 <Form.Label>Ширина изделия</Form.Label>
-                <Form.Control type="number" value={allValues.width} name="width" placeholder="width"
+                <Form.Control type="number" value={formData.width} name="width" placeholder="width"
                               onChange={changeHandler}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHeight">
                 <Form.Label>Высота изделия</Form.Label>
-                <Form.Control type="number" value={allValues.height} name="height" placeholder="height"
+                <Form.Control type="number" value={formData.height} name="height" placeholder="height"
                               onChange={changeHandler}/> </Form.Group>
             <Form.Group className="mb-3" controlId="formChromFront">
                 <Form.Label>Цветность лицо</Form.Label>
-                <Form.Control type="number" value={allValues.chromaticity_front} name="chromaticity_front"
+                <Form.Control type="number" value={formData.chromaticity_front} name="chromaticity_front"
                               placeholder="chromaticity_front"
                               onChange={changeHandler}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formChromBack">
                 <Form.Label>Цветность оборот</Form.Label>
-                <Form.Control type="number" value={allValues.chromaticity_back} name="chromaticity_back"
+                <Form.Control type="number" value={formData.chromaticity_back} name="chromaticity_back"
                               placeholder="chromaticity_back"
                               onChange={changeHandler}/>
             </Form.Group>
@@ -65,7 +65,7 @@ function Calculator() {
             <Form.Group className="mb-3" controlId="formMaterial">
                 <Form.Select aria-label="Материал" name='material_id' onChange={changeHandler}>
                     <option selected disabled>Материал</option>
-                    {allMaterials}
+                    <MaterialOptionList x="None" y="JAVASCRIPT" callBack={r => console.log('123')} />
                 </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formMode">
@@ -81,7 +81,8 @@ function Calculator() {
                 Submit
             </Button>
         </Form>
-        <GetCalculation values={allValues}/>
+        {/*<div>{JSON.stringify(calcData)}</div>*/}
+        <div>{calcData?.calculation.total}</div>
         {/*<div>{allValues.quantity}</div>*/}
         {/*<div>{`Width: ${allValues.width}`}</div>*/}
         {/*<div>{allValues.material_id}</div>*/}
@@ -89,8 +90,8 @@ function Calculator() {
         {/*<div>{console.log(allValues)}</div>*/}
 
 
-    </div>)
+    </>)
 }
 
 
-export default Calculator;
+export default Calculator
