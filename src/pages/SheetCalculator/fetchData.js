@@ -12,7 +12,7 @@ export function MaterialOptionList({x, y='defaultValue', callBack}) {
             const respJson = await response.json();
             if (response.status !== 200) {
                 console.log('ERROR')
-                // throw new Error(respJson);
+                throw new Error(respJson);
             }
             callBack(respJson);
             return respJson;

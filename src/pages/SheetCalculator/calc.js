@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import {useState} from "react";
 
 import {fetchCalculation, MaterialOptionList} from "./fetchData";
+import {Alert} from "react-bootstrap";
 
 
 function Calculator() {
@@ -30,7 +31,7 @@ function Calculator() {
         fetchCalculation(formData).then(r => setCalcData(r));
     };
 
-    return (<>
+    return (<div className="container-sm">
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formQuantity">
                 <Form.Label>Количество</Form.Label>
@@ -65,7 +66,7 @@ function Calculator() {
             <Form.Group className="mb-3" controlId="formMaterial">
                 <Form.Select aria-label="Материал" name='material_id' onChange={changeHandler}>
                     <option selected disabled>Материал</option>
-                    <MaterialOptionList x="None" y="JAVASCRIPT" callBack={r => console.log('123')} />
+                    <MaterialOptionList x="None" y="JAVASCRIPT" callBack={r => console.log('123')}/>
                 </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formMode">
@@ -81,16 +82,18 @@ function Calculator() {
                 Submit
             </Button>
         </Form>
+
         {/*<div>{JSON.stringify(calcData)}</div>*/}
-        <div>{calcData?.calculation.total}</div>
-        {/*<div>{allValues.quantity}</div>*/}
-        {/*<div>{`Width: ${allValues.width}`}</div>*/}
-        {/*<div>{allValues.material_id}</div>*/}
-        {/*<div><h2>{calc.total}</h2></div>*/}
-        {/*<div>{console.log(allValues)}</div>*/}
+        <div className="row">
+            <div className="col-sm">
+                <Alert>
+                    <div>{calcData?.calculation.total}</div>
+                </Alert>
+            </div>
 
+        </div>
 
-    </>)
+    </div>)
 }
 
 
