@@ -48,3 +48,21 @@ export function fetchCalculation(params) {
     });
 }
 
+export function fetchChromList() {
+    const url = 'http://localhost:9500/api/v1/chromaticity';
+
+    const fetchData = async () => {
+        const response = await fetch(url);
+        const respJson = await response.json();
+        if (response.status !== 200) {
+            throw new Error(respJson);
+        }
+        return respJson;
+    };
+
+    return fetchData().then(response => {
+        console.log(response);
+        return response;
+    });
+}
+
