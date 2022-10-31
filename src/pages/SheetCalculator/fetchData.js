@@ -34,8 +34,10 @@ export function fetchCalculation(params) {
     const url = 'http://localhost:9500/api/v1/calculation';
 
     const fetchData = async () => {
-        const response = await fetch(url + '?' + new URLSearchParams(params));
+        const queryParams = new URLSearchParams(params)
+        const response = await fetch(url + '?' + queryParams);
         const respJson = await response.json();
+
         if (response.status !== 200) {
             throw new Error(respJson);
         }
@@ -66,3 +68,19 @@ export function fetchChromList() {
     });
 }
 
+export function fetchPostpressList() {
+    const url = 'http://localhost:9500/api/v1/postpress';
+
+    const fetchData = async() => {
+        const response = await fetch(url);
+        const respJson = await response.json();
+        if (response.status !== 200) {
+            throw new Error(respJson)
+        }
+        return respJson;
+    };
+
+    return fetchData().then(response => {
+        return response.postpress_list
+    })
+}
