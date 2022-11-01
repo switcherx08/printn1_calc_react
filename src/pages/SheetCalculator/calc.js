@@ -1,14 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useEffect, useState} from "react";
-
 import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList} from "./fetchData";
-import {Alert, Card} from "react-bootstrap";
 import {activePostpress} from "./utils";
+import {TemplateCalc} from "./templateCalc";
+import {Alert} from "react-bootstrap";
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
+import {CalculationLayout} from "./calculationLayout";
 
 
 function Calculator() {
@@ -45,16 +46,11 @@ function Calculator() {
         fetchChromList().then(r => {
             setChromOptions(r);
         });
-
     }, []);
-
 
     let setData = (e) => setFormData({...formData, [e.target.name]: e.target.value});
 
-    const changeHandler = e => {
-        setData(e);
-        console.log(formData);
-    };
+    const changeHandler = e => setData(e)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -66,8 +62,6 @@ function Calculator() {
         setPostpressState(newPostpressState);
         const newPostpressData = activePostpress(newPostpressState);
         setFormData({...formData, postpress: newPostpressData})
-        console.log(newPostpressData)
-
     };
 
     return (
@@ -75,7 +69,7 @@ function Calculator() {
         <Tab.Container id="left-tabs-example" defaultActiveKey="first" >
             <Row>
                 <Col sm={3} >
-                    <Nav variant="pills" className="flex-column" style={{paddingLeft: 25, paddingTop: 20}}>
+                    <Nav variant="pills" className="flex-column" style={{paddingLeft: 25, paddingTop: 15}}>
                         <Nav.Item>
                             <Nav.Link eventKey="first">Листовой расчет</Nav.Link>
                         </Nav.Item>
@@ -187,8 +181,6 @@ function Calculator() {
                                                     onClick={() => handlePostpress(o.id)}
                                                     checked={postpressState[o.id]?.isActive}
                                                 />)}
-
-
                                             </Form.Group>
 
                                             <Button variant="primary" type="submit">
@@ -197,51 +189,19 @@ function Calculator() {
                                         </Form>
                                     </div>
 
-
-                                    {/*<div>{JSON.stringify(calcData)}</div>*/}
-
                                     <div className="col-sm" style={{padding: 15}}>
-                                        <Alert>
-                                            <div>
-                                                <h5>{calcData?.calculation.name}</h5>
-                                                <p>Тираж: {calcData?.calculation.quantity} экз.</p>
-                                                <p>Цветность лица: {calcData?.calculation.chromaticity_front}</p>
-                                                <p>Цветность оборота: {calcData?.calculation.chromaticity_back} </p>
-                                                {/*<p>Материал изделия: {calcData?.calculation.material} </p>*/}
-                                                <p>Ширина изделия: {calcData?.calculation.width} мм </p>
-                                                <p>Высота изделия: {calcData?.calculation.height} мм </p>
-                                                <hr></hr>
-                                                <p>Стоимость за единицу: <b>{calcData?.calculation.price}</b> руб.</p>
-                                                <p>Стоимость тиража: <b>{calcData?.calculation.total}</b> руб.</p>
-                                                <p>Стоимость постпечатных
-                                                    опций: <b>{calcData?.calculation.postpress_total}</b> руб.</p>
-                                                <hr></hr>
-                                                <p><b>Service info:</b></p>
-                                                <p>Печатных листов
-                                                    требуется: <b>{calcData?.calculation.sheets_required}</b> руб.</p>
-                                                <p>Себестоимость
-                                                    материалов: <b>{calcData?.calculation.total_cost_of_materials}</b> руб.
-                                                </p>
-                                                <p>Себестоимость
-                                                    печати: <b>{calcData?.calculation.total_cost_of_materials}</b> руб.
-                                                </p>
-                                                <p>Стоимость постпечатных
-                                                    опций: <b>{calcData?.calculation.postpress_total}</b> руб.</p>
-
-                                            </div>
-
-                                        </Alert>
-
+                                       <CalculationLayout calcData={calcData} />
                                     </div>
                                 </div>
                             </div>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="second">
+                            <TemplateCalc postpress={postpressOptions}></TemplateCalc>
                         </Tab.Pane>
                     </Tab.Content>
                 </Col>
             </Row>
         </Tab.Container>
-
-
     )
 }
 

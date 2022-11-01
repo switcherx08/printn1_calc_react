@@ -1,5 +1,21 @@
 import {useEffect, useState} from "react";
 
+function fetchGetReq(url, queryParams=null, headers=null){
+    const fetchData = async () => {
+        if (queryParams){
+            url = url + '?' + new URLSearchParams(queryParams)
+        }
+        const response = await fetch(url);
+        const respJson = await response.json();
+        if (response.status !== 200) {
+            throw new Error(respJson)
+        }
+        return respJson;
+    };
+    return fetchData().then(response => {
+        return response
+    })
+}
 
 export function MaterialOptionList({x, y='defaultValue', callBack}) {
     const [matChoice, setMatChoice] = useState([])
@@ -52,35 +68,22 @@ export function fetchCalculation(params) {
 
 export function fetchChromList() {
     const url = 'http://localhost:9500/api/v1/chromaticity';
-
-    const fetchData = async () => {
-        const response = await fetch(url);
-        const respJson = await response.json();
-        if (response.status !== 200) {
-            throw new Error(respJson);
-        }
-        return respJson;
-    };
-
-    return fetchData().then(response => {
-        console.log(response);
-        return response.chromaticities;
-    });
+     return fetchGetReq(url).then(r => r?.chromaticities)
 }
 
 export function fetchPostpressList() {
-    const url = 'http://localhost:9500/api/v1/postpress';
-
-    const fetchData = async() => {
-        const response = await fetch(url);
-        const respJson = await response.json();
-        if (response.status !== 200) {
-            throw new Error(respJson)
-        }
-        return respJson;
-    };
-
-    return fetchData().then(response => {
-        return response.postpress_list
-    })
+    const url = 'http://localhost:9500/api/v1/postpress/';
+    return fetchGetReq(url).then(r => r?.postpress_list)
 }
+
+
+export function fetchTemplateList(id='') {
+    const url = 'http://localhost:9500/api/v1/template/'
+    return fetchGetReq(url).then(r => r?.templates)
+}
+
+export function fetchCalcViaTemplate(templateId, quantity){
+    const url = 'http://localhost:9500/api/v1/template/' + templateId + '/calc'
+    return fetchGetReq(url, {quantity: quantity})
+}
+
