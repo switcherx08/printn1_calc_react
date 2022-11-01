@@ -67,9 +67,9 @@ function Calculator() {
     return (
 
         <Tab.Container id="left-tabs-example" defaultActiveKey="first" >
-            <Row>
+            <Row style={{paddingTop: 15}}>
                 <Col sm={3} >
-                    <Nav variant="pills" className="flex-column" style={{paddingLeft: 25, paddingTop: 15}}>
+                    <Nav variant="pills" className="flex-column" style={{paddingLeft: 25}}>
                         <Nav.Item>
                             <Nav.Link eventKey="first">Листовой расчет</Nav.Link>
                         </Nav.Item>
@@ -84,7 +84,7 @@ function Calculator() {
                             <div className="container-sm">
                                 <div className="row">
                                     <div className="col-sm" style={{paddingBottom: 15}}>
-                                        <h3 style={{paddingTop: 15}}>Параметры продукции</h3>
+                                        <h3 >Параметры продукции</h3>
                                         <Form.Group className="mb-3" controlId="formMode">
                                             <Form.Label>Тип печати:</Form.Label>
                                             <Form.Select aria-label="Режим расчета" placeholder="Mode">
@@ -189,7 +189,7 @@ function Calculator() {
                                         </Form>
                                     </div>
 
-                                    <div className="col-sm" style={{padding: 15}}>
+                                    <div className="col-sm">
                                        <CalculationLayout calcData={calcData} />
                                     </div>
                                 </div>
