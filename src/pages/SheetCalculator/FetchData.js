@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 
-function fetchGetReq(url, queryParams=null, headers=null){
+function fetchGetReq(url, queryParams = null, headers = null) {
     const fetchData = async () => {
-        if (queryParams){
+        if (queryParams) {
             url = url + '?' + new URLSearchParams(queryParams)
         }
         const response = await fetch(url);
@@ -17,7 +17,25 @@ function fetchGetReq(url, queryParams=null, headers=null){
     })
 }
 
-export function MaterialOptionList({x, y='defaultValue', callBack}) {
+function sendPostReq(url, payload = {}, headers = null) {
+    const sendData = async () => {
+        const response = await fetch(url, {
+            method: 'POST', body: JSON.stringify(payload), headers: {
+                'Content-Type': 'application/json;charset=utf-8', headers
+            }
+        });
+        const respJson = await response.json();
+        if (response.status !== 200) {
+            throw new Error(respJson)
+        }
+        return respJson;
+    };
+    return sendData().then(response => {
+        return response
+    })
+}
+
+export function MaterialOptionList({x, y = 'defaultValue', callBack}) {
     const [matChoice, setMatChoice] = useState([])
     const matUrl = 'http://127.0.0.1:9500/api/v1/material'
 
@@ -68,7 +86,7 @@ export function fetchCalculation(params) {
 
 export function fetchChromList() {
     const url = 'http://localhost:9500/api/v1/chromaticity';
-     return fetchGetReq(url).then(r => r?.chromaticities)
+    return fetchGetReq(url).then(r => r?.chromaticities)
 }
 
 export function fetchPostpressList() {
@@ -77,13 +95,17 @@ export function fetchPostpressList() {
 }
 
 
-export function fetchTemplateList(id='') {
+export function fetchTemplateList(id = '') {
     const url = 'http://localhost:9500/api/v1/template/'
     return fetchGetReq(url).then(r => r?.templates)
 }
 
-export function fetchCalcViaTemplate(templateId, quantity){
+export function fetchCalcViaTemplate(templateId, quantity) {
     const url = 'http://localhost:9500/api/v1/template/' + templateId + '/calc'
     return fetchGetReq(url, {quantity: quantity})
 }
 
+export function saveCalculation(payload) {
+    const url = 'http://localhost:9500/api/v1/calculation/'
+    return sendPostReq(url, payload)
+}

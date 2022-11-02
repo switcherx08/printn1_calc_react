@@ -2,11 +2,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useEffect, useState} from "react";
 
-import {fetchTemplateList, fetchCalcViaTemplate} from "./fetchData";
-import {CalculationLayout} from "./calculationLayout";
+import {fetchTemplateList, fetchCalcViaTemplate} from "./FetchData";
+import {CalculationLayout} from "./CalculationLayout";
 
 
-export function TemplateCalc(props) {
+export function TemplateCalculation(props) {
     const [calcData, setCalcData] = useState(null)
     const [formData, setFormData] = useState({quantity: 100});
 
@@ -57,6 +57,7 @@ export function TemplateCalc(props) {
                         </Form.Text>
                     </Form.Group>
                     <Button type='submit'>Расчет</Button>
+
                 </Form>
             </div>
             <div className="col-sm">

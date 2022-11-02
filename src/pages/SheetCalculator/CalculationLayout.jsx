@@ -25,7 +25,7 @@ export function CalculationLayout(props) {
                         материалов: <b>{props.calcData?.calculation.total_cost_of_materials}</b> руб.
                     </p>
                     <p>Себестоимость
-                        печати: <b>{props.calcData?.calculation.total_cost_of_materials}</b> руб.
+                        печати: <b>{props.calcData?.calculation.total_cost_of_printing}</b> руб.
                     </p>
                     <p>Стоимость постпечатных
                         опций: <b>{props.calcData?.calculation.postpress_total}</b> руб.</p>

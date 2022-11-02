@@ -1,15 +1,16 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useEffect, useState} from "react";
-import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList} from "./fetchData";
+import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList, saveCalculation} from "./FetchData";
 import {activePostpress} from "./utils";
-import {TemplateCalc} from "./templateCalc";
-import {Alert} from "react-bootstrap";
+import {TemplateCalculation} from "./TemplateCalculation";
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import {CalculationLayout} from "./calculationLayout";
+import {CalculationLayout} from "./CalculationLayout";
+import {ButtonGroup} from "react-bootstrap";
+import {CalculationNameModal} from "./Modal";
 
 
 function Calculator() {
@@ -27,6 +28,7 @@ function Calculator() {
 
     const [formData, setFormData] = useState(initParams);
     const [calcData, setCalcData] = useState(null);
+    const [modalShow, setModalShow] = useState(false)
 
     const [chromOptions, setChromOptions] = useState([]);
     const [postpressState, setPostpressState] = useState({});
@@ -41,7 +43,7 @@ function Calculator() {
             });
             setPostpressState(options);
             let optArr = activePostpress(options)
-            setFormData({...formData, postpress: optArr});
+            setFormData({...formData, postpress: optArr.arrayPostpress});
         });
         fetchChromList().then(r => {
             setChromOptions(r);
@@ -54,21 +56,37 @@ function Calculator() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetchCalculation(formData).then(r => setCalcData(r));
+        if (e.target.id === "2") {
+            setModalShow(true)
+        } else {
+            fetchCalculation(formData).then(r => setCalcData(r));
+        }
     };
 
     const handlePostpress = (id) => {
         const newPostpressState = {...postpressState, [id]: {id: id, isActive: !postpressState[id].isActive}}
         setPostpressState(newPostpressState);
         const newPostpressData = activePostpress(newPostpressState);
-        setFormData({...formData, postpress: newPostpressData})
+        setFormData({...formData, postpress: newPostpressData.arrayPostpress})
     };
 
+    const handleSubmitTemplateCalc = e => {
+        let calcName = e.target.value
+        console.log(calcName)
+        saveCalculation({
+            ...formData,
+            postpress: formData?.postpress,
+            calc_name: calcName
+        }).then(r => setCalcData(r)).then(r => setModalShow(false))
+        console.log(formData?.postpress)
+    }
     return (
 
-        <Tab.Container id="left-tabs-example" defaultActiveKey="first" >
+        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+            <CalculationNameModal show={modalShow} onClose={() => setModalShow(false)}
+                                  setCalcName={(e) => handleSubmitTemplateCalc(e)}/>
             <Row style={{paddingTop: 15}}>
-                <Col sm={3} >
+                <Col sm={3}>
                     <Nav variant="pills" className="flex-column" style={{paddingLeft: 25}}>
                         <Nav.Item>
                             <Nav.Link eventKey="first">Листовой расчет</Nav.Link>
@@ -83,8 +101,8 @@ function Calculator() {
                         <Tab.Pane eventKey="first">
                             <div className="container-sm">
                                 <div className="row">
-                                    <div className="col-sm" style={{paddingBottom: 15}}>
-                                        <h3 >Параметры продукции</h3>
+                                    <div className="col-sm" style={{padding: 10}}>
+                                        <h3>Параметры продукции</h3>
                                         <Form.Group className="mb-3" controlId="formMode">
                                             <Form.Label>Тип печати:</Form.Label>
                                             <Form.Select aria-label="Режим расчета" placeholder="Mode">
@@ -182,26 +200,34 @@ function Calculator() {
                                                     checked={postpressState[o.id]?.isActive}
                                                 />)}
                                             </Form.Group>
-
-                                            <Button variant="primary" type="submit">
-                                                Расчет
-                                            </Button>
+                                            <ButtonGroup>
+                                                <Button variant="primary" id="1" type="submit">Расчет</Button>
+                                                <Button variant="success" id="2" onClick={e => handleSubmit(e)}>Расчет с
+                                                    сохранением</Button>
+                                                <Button variant="outline-success" onClick={() => {
+                                                    setModalShow(true)
+                                                }}> Сохранить в
+                                                    шаблон </Button>
+                                                <Button variant="outline-danger" onClick={() => console.log(formData?.postpress)}>TEST</Button>
+                                            </ButtonGroup>
                                         </Form>
+
                                     </div>
 
                                     <div className="col-sm">
-                                       <CalculationLayout calcData={calcData} />
+                                        <CalculationLayout calcData={calcData}/>
                                     </div>
                                 </div>
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="second">
-                            <TemplateCalc postpress={postpressOptions}></TemplateCalc>
+                            <TemplateCalculation postpress={postpressOptions}></TemplateCalculation>
                         </Tab.Pane>
                     </Tab.Content>
                 </Col>
             </Row>
         </Tab.Container>
+
     )
 }
 

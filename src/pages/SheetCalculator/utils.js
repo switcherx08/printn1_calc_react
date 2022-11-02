@@ -9,6 +9,6 @@ export function activePostpress (state) {
         postpressArr.push(0)
     }
 
-    return String(postpressArr)
+    return {stringPostpress: String(postpressArr), arrayPostpress: postpressArr}
 }
 

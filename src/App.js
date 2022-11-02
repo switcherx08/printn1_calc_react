@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Calculator1 from "./pages/calc1";
 import Navbar from "./pages/Navbar/Navbar";
-import Calculator from "./pages/SheetCalculator/calc";
+import Calculator from "./pages/SheetCalculator/Calculation";
 import TestCalculate from "./pages/test1";
 
 function App() {
