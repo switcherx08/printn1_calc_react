@@ -94,6 +94,11 @@ export function fetchPostpressList() {
     return fetchGetReq(url).then(r => r?.postpress_list)
 }
 
+export function fetchCalculationList(){
+    const url='http://localhost:9500/api/v1/calculation/saved'
+    return fetchGetReq(url).then(r => r?.calculations)
+}
+
 
 export function fetchTemplateList(id = '') {
     const url = 'http://localhost:9500/api/v1/template/'
@@ -109,3 +114,5 @@ export function saveCalculation(payload) {
     const url = 'http://localhost:9500/api/v1/calculation/'
     return sendPostReq(url, payload)
 }
+
+

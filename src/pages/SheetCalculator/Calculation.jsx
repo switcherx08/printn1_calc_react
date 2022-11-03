@@ -1,16 +1,18 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {useEffect, useState} from "react";
-import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList, saveCalculation} from "./FetchData";
-import {activePostpress} from "./utils";
-import {TemplateCalculation} from "./TemplateCalculation";
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import {CalculationLayout} from "./CalculationLayout";
 import {ButtonGroup} from "react-bootstrap";
+
+import {CalculationLayout} from "./CalculationLayout";
+import {TemplateCalculation} from "./TemplateCalculation";
 import {CalculationNameModal} from "./Modal";
+import {SavedCalculations} from "../SavedCalculations"
+import {useEffect, useState} from "react";
+import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList, saveCalculation} from "./FetchData";
+import {activePostpress} from "./utils";
 
 
 function Calculator() {
@@ -57,28 +59,28 @@ function Calculator() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (e.target.id === "2") {
-            setModalShow(true)
+            setModalShow(true);
         } else {
             fetchCalculation(formData).then(r => setCalcData(r));
         }
     };
 
     const handlePostpress = (id) => {
-        const newPostpressState = {...postpressState, [id]: {id: id, isActive: !postpressState[id].isActive}}
+        const newPostpressState = {...postpressState, [id]: {id: id, isActive: !postpressState[id].isActive}};
         setPostpressState(newPostpressState);
         const newPostpressData = activePostpress(newPostpressState);
-        setFormData({...formData, postpress: newPostpressData.arrayPostpress})
+        setFormData({...formData, postpress: newPostpressData.arrayPostpress});
     };
 
     const handleSubmitTemplateCalc = e => {
-        let calcName = e.target.value
-        console.log(calcName)
+        let calcName = e.target.value;
+        console.log(calcName);
         saveCalculation({
             ...formData,
             postpress: formData?.postpress,
             calc_name: calcName
-        }).then(r => setCalcData(r)).then(r => setModalShow(false))
-        console.log(formData?.postpress)
+        }).then(r => setCalcData(r)).then(r => setModalShow(false));
+        console.log(formData?.postpress);
     }
     return (
 
@@ -93,6 +95,9 @@ function Calculator() {
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="second">Листовой расчет по шаблону </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="third">Сохраненные расчеты</Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </Col>
@@ -222,6 +227,9 @@ function Calculator() {
                         </Tab.Pane>
                         <Tab.Pane eventKey="second">
                             <TemplateCalculation postpress={postpressOptions}></TemplateCalculation>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="third">
+                            <SavedCalculations/>
                         </Tab.Pane>
                     </Tab.Content>
                 </Col>
