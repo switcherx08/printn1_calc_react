@@ -11,7 +11,7 @@ import {TemplateCalculation} from "./TemplateCalculation";
 import {CalculationNameModal} from "./Modal";
 import {SavedCalculations} from "../SavedCalculations"
 import {useEffect, useState} from "react";
-import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList, saveCalculation} from "./FetchData";
+import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList, saveCalculation} from "./FetchCalcData";
 import {activePostpress} from "./utils";
 
 

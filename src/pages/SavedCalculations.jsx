@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import {Button, ButtonGroup} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import {fetchCalculationList} from "./SheetCalculator/FetchData";
+import {fetchCalculationList} from "./SheetCalculator/FetchCalcData";
 
 export function SavedCalculations() {
     const [calculations, setCalculations] = useState([])
