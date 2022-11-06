@@ -1,10 +1,12 @@
 import {logout} from "../Auth/AuthActions";
 import {useAuthDispatch, useAuthState} from "../Auth/AuthContext";
 import {useEffect} from "react";
+import { useNavigate} from "react-router-dom";
 
 export function AdminPanel(props) {
     const dispatch = useAuthDispatch() // read dispatch method from context
     const userDetails = useAuthState()
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -12,7 +14,7 @@ export function AdminPanel(props) {
 
     const handleLogout = () => {
         logout(dispatch) //call the logout action
-        props.history.push('/login') //navigate to logout page on logout
+        return navigate("/login");
     }
     return <div style={{padding: 10}}>
         <div>
