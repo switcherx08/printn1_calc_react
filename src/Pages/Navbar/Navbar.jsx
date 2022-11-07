@@ -39,9 +39,10 @@ function BasicExample() {
                         </NavDropdown>
                     </Nav>
                     {userDetails.user ? <Nav className="justify-content-end">
+                            <Nav.Link> {userDetails?.user.name}</Nav.Link>
                             <Nav.Link onClick={handleLogout}>Выйти</Nav.Link>
                         </Nav>
-                        : null}
+                        :  <Nav.Link as={Link} to="/login">Войти</Nav.Link>}
 
                 </Navbar.Collapse>
             </Container>
