@@ -23,6 +23,6 @@ export function AdminPanel(props) {
             </h1>
             <button onClick={handleLogout}>Logout</button>
         </div>
-        <p>Welcome to the dashboard</p>
+        <p>Welcome to the dashboard, {userDetails?.user?.email}</p>
     </div>
 }
