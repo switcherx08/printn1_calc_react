@@ -6,28 +6,31 @@ import Calculator from "./Pages/SheetCalculator/Calculation";
 import {SavedCalculations} from "./Pages/SavedCalculations";
 import LoginForm from "./Pages/Auth/LoginPage";
 import {AdminPanel} from "./Pages/Admin/AdminPanel";
-import {AuthProvider} from "./Pages/Auth/AuthContext";
+import {AuthProvider, useAuthState} from "./Pages/Auth/AuthContext";
 
 
 function App() {
-    // let y = localStorage.getItem('y')
-    // if (y === '0'){
-    //     return (<LoginForm/>)
+    // const userDetails = useAuthState()
+    // if (!userDetails.user.id) {
+    //     return (
+    //         <AuthProvider>
+    //             <LoginForm/>
+    //         </AuthProvider>)
     // }
     return (
         <AuthProvider>
-        <BrowserRouter>
+            <BrowserRouter>
                 <Navbar/>
                 <main>
                     <Routes>
                         <Route path='/login' element={<LoginForm/>}/>
                         <Route path='/calc' element={< Calculator/>}/>
                         <Route path='/saved' element={< SavedCalculations/>}/>
-                        <Route path='/admin' element={<AdminPanel />}/>
+                        <Route path='/admin' element={<AdminPanel/>}/>
                     </Routes>
 
                 </main>
-        </BrowserRouter>
+            </BrowserRouter>
         </AuthProvider>
 
 
