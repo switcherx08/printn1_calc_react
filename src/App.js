@@ -5,7 +5,7 @@ import Navbar from "./Pages/Navbar/Navbar";
 import Calculator from "./Pages/SheetCalculator/Calculation";
 import {SavedCalculations} from "./Pages/SavedCalculations";
 import LoginForm from "./Pages/Auth/LoginPage";
-import {AdminPanel} from "./Pages/Admin/AdminPanel";
+import AdminPanel from "./Pages/Admin/AdminPanel";
 import {AuthProvider} from "./Pages/Auth/AuthContext";
 
 

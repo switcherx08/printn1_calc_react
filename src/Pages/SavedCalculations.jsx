@@ -6,18 +6,18 @@ import {fetchCalculationList} from "./SheetCalculator/FetchCalcData";
 export function SavedCalculations() {
     const [calculations, setCalculations] = useState([])
 
-    // useEffect(() => {
-    //
-    //         fetchCalculationList().then(r => {
-    //             const savedCalculations = r.map(v => {
-    //                 return v;
-    //             });
-    //             setCalculations(savedCalculations);
-    //         })
-    //
-    //         console.log(calculations);
-    //     }, []
-    // );
+    useEffect(() => {
+
+            fetchCalculationList().then(r => {
+                const savedCalculations = r.map(v => {
+                    return v;
+                });
+                setCalculations(savedCalculations);
+            })
+
+            console.log(calculations);
+        }, []
+    );
 
     // useEffect(() => {
     //     fetchCalculationList().then(r => setCalculations(r));

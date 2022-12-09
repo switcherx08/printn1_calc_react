@@ -1,28 +1,41 @@
-import {logout} from "../Auth/AuthActions";
-import {useAuthDispatch, useAuthState} from "../Auth/AuthContext";
-import {useEffect} from "react";
-import { useNavigate} from "react-router-dom";
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+import Row from 'react-bootstrap/Row';
+import Tab from 'react-bootstrap/Tab';
 
-export function AdminPanel(props) {
-    const dispatch = useAuthDispatch() // read dispatch method from context
-    const userDetails = useAuthState()
-    const navigate = useNavigate()
+import MaterialSettings from "./MaterialSettings";
 
-    useEffect(() => {
 
-    })
+function AdminPanel() {
+  return (
+    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+      <Row>
+        <Col sm={2}>
+          <Nav variant="pills" className="flex-column">
+              <Nav.Item>
+              <Nav.Link eventKey="users">Пользователи</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="materials">Материалы</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="equipment">Оборудование</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Col>
+        <Col sm={10}>
+          <Tab.Content>
+            <Tab.Pane eventKey="materials">
+              <MaterialSettings />
+            </Tab.Pane>
+            <Tab.Pane eventKey="second">
 
-    const handleLogout = () => {
-        logout(dispatch) //call the logout action
-        return navigate("/login");
-    }
-    return <div style={{padding: 10}}>
-        <div>
-            <h1>
-                Dashboard
-            </h1>
-            <button onClick={handleLogout}>Logout</button>
-        </div>
-        <p>Welcome to the dashboard, {userDetails?.user?.email}</p>
-    </div>
+            </Tab.Pane>
+          </Tab.Content>
+        </Col>
+      </Row>
+    </Tab.Container>
+  );
 }
+
+export default AdminPanel;
