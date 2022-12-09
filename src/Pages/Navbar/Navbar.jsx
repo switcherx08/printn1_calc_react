@@ -38,6 +38,9 @@ function BasicExample() {
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
+                    {userDetails.user.role >= 2 ?
+                        <Nav.Link as={Link} to="/admin"> Администрирование </Nav.Link>
+                        : null}
                     {userDetails.user ? <Nav className="justify-content-end">
                             <Nav.Link> {userDetails?.user.name}</Nav.Link>
                             <Nav.Link onClick={handleLogout}>Выйти</Nav.Link>
