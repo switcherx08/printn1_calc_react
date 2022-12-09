@@ -19,21 +19,21 @@ export function SavedCalculations() {
     //     }, []
     // );
 
-    useEffect(() => {
-        fetchCalculationList().then(r => setCalculations(r));
-        fetch('http://localhost:9500/api/v1/auth/signin', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                email: "4@4.ru",
-                password: "1111"
-            })
-        }).then(r => r.json()).then(r => {
-            localStorage.setItem('auth', JSON.stringify(r));
-        });
-    }, []);
+    // useEffect(() => {
+    //     fetchCalculationList().then(r => setCalculations(r));
+    //     fetch('http://localhost:9500/api/v1/auth/signin', {
+    //         method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json;charset=utf-8'
+    //         },
+    //         body: JSON.stringify({
+    //             email: "4@4.ru",
+    //             password: "1111"
+    //         })
+    //     }).then(r => r.json()).then(r => {
+    //         localStorage.setItem('auth', JSON.stringify(r));
+    //     });
+    // }, []);
 
     return (
         <div className="container-xl">
