@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 
-import MaterialSettings from "./MaterialSettings";
+import SheetMaterialSettings from "./MaterialSettings";
 
 
 function AdminPanel() {
@@ -26,7 +26,7 @@ function AdminPanel() {
         <Col sm={10}>
           <Tab.Content>
             <Tab.Pane eventKey="materials">
-              <MaterialSettings />
+              <SheetMaterialSettings />
             </Tab.Pane>
             <Tab.Pane eventKey="second">
 

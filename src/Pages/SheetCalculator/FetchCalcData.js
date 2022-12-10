@@ -3,7 +3,7 @@ import {fetchGetReq, sendPostReq} from "../../RequestModels"
 
 export function MaterialOptionList({x, y = 'defaultValue', callBack}) {
     const [matChoice, setMatChoice] = useState([])
-    const matUrl = 'http://127.0.0.1:9500/api/v1/material'
+    const matUrl = 'http://127.0.0.1:9500/api/v1/sheet_material'
 
     useEffect(() => {
         console.log(x, y);
