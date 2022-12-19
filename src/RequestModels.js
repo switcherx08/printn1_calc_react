@@ -54,3 +54,24 @@ export function sendPutReq(url, payload = {}, queryParams=null, headers = null) 
         return response
     })
 }
+
+export function sendDeleteReq(url, payload = {}, queryParams=null, headers = null) {
+    const sendData = async () => {
+        if (queryParams){
+            url = url + '?' + new URLSearchParams(queryParams)
+        }
+        const response = await fetch(url, {
+            method: 'DELETE', body: JSON.stringify(payload), headers: {
+                'Content-Type': 'application/json;charset=utf-8', headers
+            }
+        });
+        const respJson = await response.json();
+        if (response.status !== 200) {
+            throw new Error(respJson)
+        }
+        return respJson;
+    };
+    return sendData().then(response => {
+        return response
+    })
+}

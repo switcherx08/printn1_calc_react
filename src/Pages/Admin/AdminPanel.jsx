@@ -5,12 +5,11 @@ import Tab from 'react-bootstrap/Tab';
 
 import SheetMaterialSettings from "./MaterialSettings";
 
-
 function AdminPanel() {
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+    <Tab.Container id="left-tabs-example" defaultActiveKey="materials">
       <Row>
-        <Col sm={2}>
+        <Col sm={3}>
           <Nav variant="pills" className="flex-column">
               <Nav.Item>
               <Nav.Link eventKey="users">Пользователи</Nav.Link>
@@ -23,7 +22,7 @@ function AdminPanel() {
             </Nav.Item>
           </Nav>
         </Col>
-        <Col sm={10}>
+        <Col sm={9}>
           <Tab.Content>
             <Tab.Pane eventKey="materials">
               <SheetMaterialSettings />

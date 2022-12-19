@@ -13,6 +13,7 @@ import {SavedCalculations} from "../SavedCalculations"
 import {useEffect, useState} from "react";
 import {fetchCalculation, fetchChromList, fetchPostpressList, MaterialOptionList, saveCalculation} from "./FetchCalcData";
 import {activePostpress} from "./utils";
+import {AddMaterialCardModal} from "../Admin/modal/AddMaterialCardModal";
 
 
 function Calculator() {
@@ -74,18 +75,17 @@ function Calculator() {
 
     const handleSubmitTemplateCalc = e => {
         let calcName = e.target.value;
-        console.log(calcName);
+
         saveCalculation({
             ...formData,
             postpress: formData?.postpress,
             calc_name: calcName
         }).then(r => setCalcData(r)).then(r => setModalShow(false));
-        console.log(formData?.postpress);
     }
     return (
 
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-            <CalculationNameModal show={modalShow} onClose={() => setModalShow(false)}
+            <AddMaterialCardModal show={modalShow} onClose={() => setModalShow(false)}
                                   setCalcName={(e) => handleSubmitTemplateCalc(e)}/>
             <Row style={{paddingTop: 15}}>
                 <Col sm={3}>

@@ -7,6 +7,7 @@ import {SavedCalculations} from "./Pages/SavedCalculations";
 import LoginForm from "./Pages/Auth/LoginPage";
 import AdminPanel from "./Pages/Admin/AdminPanel";
 import {AuthProvider} from "./Pages/Auth/AuthContext";
+import OldSheetMaterialSettings from "./Pages/Admin/_DEPRECATED_MaterialSettings";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                         <Route path='/calc' element={< Calculator/>}/>
                         <Route path='/saved' element={< SavedCalculations/>}/>
                         <Route path='/admin' element={<AdminPanel/>}/>
+                        <Route path='/test1' element={<OldSheetMaterialSettings />}/>
                     </Routes>
 
                 </main>
