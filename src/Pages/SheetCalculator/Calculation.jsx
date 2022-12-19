@@ -85,7 +85,7 @@ function Calculator() {
     return (
 
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-            <AddMaterialCardModal show={modalShow} onClose={() => setModalShow(false)}
+            <CalculationNameModal show={modalShow} onClose={() => setModalShow(false)}
                                   setCalcName={(e) => handleSubmitTemplateCalc(e)}/>
             <Row style={{paddingTop: 15}}>
                 <Col sm={3}>
