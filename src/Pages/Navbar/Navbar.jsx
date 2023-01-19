@@ -23,7 +23,8 @@ function BasicExample() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/calc" href='#calc'>Листовой калькулятор</Nav.Link>
+                        <Nav.Link as={Link} to="/sheet-calculation" href='#calc'>Листовой калькулятор</Nav.Link>
+                        <Nav.Link as={Link} to="/sheet-calculation/model/1" href='#calc'>Калькулятор наклеек</Nav.Link>
                         <Nav.Link as={Link} to="/saved" href="#test">Сохраненные расчеты</Nav.Link>
                         <Nav.Link as={Link} to="/test1" href="#test1">test1</Nav.Link>
                         {/*<NavDropdown title="Dropdown" id="basic-nav-dropdown">*/}

@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {fetchGetReq, sendPostReq} from "../../RequestModels"
+import {apiUrl, entities} from "../config.js"
 
 export function MaterialOptionList({x, y = 'defaultValue', callBack}) {
     const [matChoice, setMatChoice] = useState([])
@@ -65,6 +66,16 @@ export function fetchCalculationList(){
     return fetchGetReq(url).then(r => r?.calculations)
 }
 
+export function fetchCalcModelList() {
+    const url = apiUrl + entities.calculator_model
+    return fetchGetReq(url).then(r => r)
+}
+
+export function fetchMaterialsByIdList(idList) {
+    const url = apiUrl + entities.sheet_material
+    return fetchGetReq(url, {id_list: String(idList)}).then(r => r?.materials)
+}
+
 
 export function fetchTemplateList(id = '') {
     const url = 'http://localhost:9500/api/v1/template/'
@@ -80,5 +91,6 @@ export function saveCalculation(payload) {
     const url = 'http://localhost:9500/api/v1/calculation/'
     return sendPostReq(url, payload)
 }
+
 
 

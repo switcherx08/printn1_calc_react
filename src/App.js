@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "./Pages/Navbar/Navbar";
 import Calculator from "./Pages/SheetCalculator/Calculation";
+import {CalcModel} from "./Pages/SheetCalculator/CalcModel";
 import {SavedCalculations} from "./Pages/SavedCalculations";
 import LoginForm from "./Pages/Auth/LoginPage";
 import AdminPanel from "./Pages/Admin/AdminPanel";
@@ -26,7 +27,8 @@ function App() {
                 <Navbar/>
                 <main>
                     <Routes>
-                        <Route path='/calc' element={< Calculator/>}/>
+                        <Route path='/sheet-calculation' element={< Calculator/>}/>
+                        <Route path='/sheet-calculation/model/:calcId' element={<CalcModel />} />
                         <Route path='/saved' element={< SavedCalculations/>}/>
                         <Route path='/admin' element={<AdminPanel/>}/>
                         <Route path='/test1' element={<OldSheetMaterialSettings />}/>
