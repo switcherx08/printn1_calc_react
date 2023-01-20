@@ -76,6 +76,10 @@ export function fetchMaterialsByIdList(idList) {
     return fetchGetReq(url, {id_list: String(idList)}).then(r => r?.materials)
 }
 
+export function fetchChromByIdList(idList) {
+    const url = apiUrl + entities.chromaticity
+    return fetchGetReq(url, {idList: String(idList)}).then(r => r.chromaticities)
+}
 
 export function fetchTemplateList(id = '') {
     const url = 'http://localhost:9500/api/v1/template/'

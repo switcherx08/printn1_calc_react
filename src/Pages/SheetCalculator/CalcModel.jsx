@@ -14,6 +14,9 @@ function reducer(state, action) {
         case 'fetchMaterialList':
             return {...state, materialList: action.payload};
 
+        case 'update':
+            return {...state, currentData: action.payload};
+
         default:
             return state;
     }
@@ -22,7 +25,8 @@ function reducer(state, action) {
 export function CalcModel() {
     const initState = {
         modelData: {},
-        materialList: []
+        materialList: [],
+        currentData: {}
     }
 
     function init(state) {
@@ -39,20 +43,19 @@ export function CalcModel() {
             dispatch({type: 'fetchModelData', payload: modelData});
 
             fetchMaterialsByIdList(modelData.materials).then(r => {
-            dispatch({type: 'fetchMaterialList', payload: r})
-        })
+                dispatch({type: 'fetchMaterialList', payload: r})
+            })
 
         });
 
 
-
     }, []);
 
+    const changeHandler = (e) => {
+        dispatch({type: 'update', payload: {...data.currentData, [e.target.name]: e.target.value}})
+    }
 
-    // fetchMaterialsByIdList(data?.modelData?.materials).then(r => r.forEach((m, idx) => {
-    //     console.log(m)
-    // }))
-    console.log(data.materialList)
+    console.log(data.currentData)
 
 
     return <>
@@ -72,8 +75,8 @@ export function CalcModel() {
 
                     <Form.Group className="mb-3" controlId="formMaterial">
                         <Form.Label>Материал:</Form.Label>
-                        <Form.Select aria-label="Материал" name='material_id'>
-                            {data?.materialList?.forEach((m, idx) => {
+                        <Form.Select aria-label="Материал" name='materialId' onChange={changeHandler} >
+                            {data?.materialList?.map((m, idx) => {
                                 return <option value={m.id} key={'mat-' + idx}>{m.name}</option>
                             })}
                         </Form.Select>
@@ -83,7 +86,7 @@ export function CalcModel() {
                         <Form.Group className="mb-3" controlId="formQuantity">
                             <Form.Label>Количество</Form.Label>
                             <Form.Control type="number" name="quantity"
-                                          placeholder="Quantity"
+                                          placeholder="Количество" onChange={changeHandler}
                             />
                             <Form.Text className="text-muted">
                                 Количество экземпляров тиража
@@ -93,20 +96,20 @@ export function CalcModel() {
                         <Form.Group className="mb-3" controlId="formWidth">
                             <Form.Label>Ширина изделия</Form.Label>
                             <Form.Control type="number" name="width"
-                                          placeholder="width"
+                                          placeholder="Ширина" onChange={changeHandler}
                             />
                             <Form.Text className="text-muted">
                                 Не менее 30 мм
                             </Form.Text>
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formHeight">
+                        <Form.Group className="mb-3" controlId="formHeight" onChange={changeHandler}>
                             <Form.Label>Высота изделия</Form.Label>
                             <Form.Control type="number" name="height"
-                                          placeholder="height"
+                                          placeholder="Высота"
                             />
                             <Form.Text className="text-muted">
-                                Не менее 30 мм
+                                Не менее {data?.modelData?.min_width} мм
                             </Form.Text>
                         </Form.Group>
 
@@ -116,7 +119,7 @@ export function CalcModel() {
                                           placeholder="bleeds"
                             />
                             <Form.Text className="text-muted">
-                                Не менее 2 мм
+                                Не менее {data?.modelData?.min_height} мм
                             </Form.Text>
                         </Form.Group>
 
