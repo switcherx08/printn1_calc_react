@@ -78,7 +78,12 @@ export function fetchMaterialsByIdList(idList) {
 
 export function fetchChromByIdList(idList) {
     const url = apiUrl + entities.chromaticity
-    return fetchGetReq(url, {idList: String(idList)}).then(r => r.chromaticities)
+    return fetchGetReq(url, {id_list: String(idList)}).then(r => r?.chromaticities)
+}
+
+export function fetchPostpressByIdList(idList) {
+    const url = apiUrl + entities.postpress
+    return fetchGetReq(url, {id_list: String(idList)}).then(r => r?.postpress_list)
 }
 
 export function fetchTemplateList(id = '') {

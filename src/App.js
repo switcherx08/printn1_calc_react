@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "./Pages/Navbar/Navbar";
 import Calculator from "./Pages/SheetCalculator/Calculation";
-import {CalcModel} from "./Pages/SheetCalculator/CalcModel";
+import CalcModel from "./Pages/SheetCalculator/CalcModel";
 import {SavedCalculations} from "./Pages/SavedCalculations";
 import LoginForm from "./Pages/Auth/LoginPage";
 import AdminPanel from "./Pages/Admin/AdminPanel";
