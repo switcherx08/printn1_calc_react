@@ -1,16 +1,13 @@
 import {useParams} from "react-router-dom";
 import {
-    fetchCalcModelList,
-    fetchChromByIdList,
-    fetchMaterialsByIdList,
-    fetchPostpressByIdList,
-    fetchPostpressList
+    fetchCalcModelList, fetchChromByIdList, fetchMaterialsByIdList, fetchPostpressByIdList, fetchPostpressList
 } from "./FetchCalcData";
 import {useEffect, useReducer, useState} from "react";
 import Form from "react-bootstrap/Form";
 import {ButtonGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {CalculationLayout} from "./CalculationLayout";
+import {activePostpress} from "./utils";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -23,7 +20,6 @@ function reducer(state, action) {
         case 'update':
             return {...state, currentData: action.payload};
 
-
         default:
             return state;
     }
@@ -31,10 +27,8 @@ function reducer(state, action) {
 
 function CalcModel() {
     const initState = {
-        modelData: {},
-        formData: {},
-        currentData: {
-            postpress: []
+        modelData: {}, formData: {}, currentData: {
+            postpressState: new Set()
         }
 
     }
@@ -49,7 +43,6 @@ function CalcModel() {
 
 
     useEffect(() => {
-
         fetchCalcModelList().then(response => {
 
             const modelData = response[`calc-${params.calcId}`];
@@ -57,10 +50,10 @@ function CalcModel() {
             const reqChrom = fetchChromByIdList(modelData.chromaticities);
             const reqPostpress = fetchPostpressByIdList(modelData.postpress);
 
-            Promise.all([reqMaterials, reqChrom, reqPostpress]).then(([materials,
-                                                                          chromaticities,
-                                                                          postpress]) => {
-                let setData = {}
+            dispatch({type: 'fetchModelData', payload: modelData})
+
+            Promise.all([reqMaterials, reqChrom, reqPostpress]).then(([materials, chromaticities, postpress]) => {
+                let setData = {};
                 setData.matList = materials;
                 setData.chromList = chromaticities;
                 setData.postpressList = postpress;
@@ -71,19 +64,34 @@ function CalcModel() {
 
 
     const changeHandler = (e) => {
+        if (e.target.name === 'postpress') {
+            console.log(e.target.value);
+            let currentPostpress = new Set(data.currentData.postpressState);
+            if (!currentPostpress.has(Number(e.target.value))) {
+                currentPostpress.add(Number(e.target.value));
+            } else {
+                currentPostpress.delete(Number(e.target.value));
+            }
+            dispatch({
+                type: 'update', payload: {
+                    ...data.currentData, ...{
+                        postpressState: currentPostpress, postpress: String(Array.from(currentPostpress))
+                    }
+                }
+            });
 
-        if (e.target.name === 'postpress'){
-             console.log(e.target.name)
-            let currentPostpress = data.currentData.postpress
-            currentPostpress.push(e.target.value)
-            /// THIS PLACE: HAVE TO ADD POSTPRESS STATUS (ACTIVE OR NOT) THIS METHOD DOES NOT DELETE CANCELED CHOOSE
-
-            dispatch({type: 'update', payload: {...data.currentData, postpress: currentPostpress}})
-        }
-        else{
+        } else {
             dispatch({type: 'update', payload: {...data.currentData, [e.target.name]: e.target.value}})
         }
 
+    }
+
+    const handleSubmit = (e) => {
+        switch (e.target.name) {
+            case 'getCalc':
+                e.preventDefault()
+                console.log(e.target.name)
+        }
     }
 
     console.log(data?.currentData)
@@ -93,7 +101,7 @@ function CalcModel() {
             <div className="row">
                 <div className="col-sm" style={{padding: 10}}>
                     <h3>{data?.modelData?.name}</h3>
-
+                    <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formMode">
                         <Form.Label>Тип печати:</Form.Label>
                         <Form.Select aria-label="Режим расчета" placeholder="Mode">
@@ -115,7 +123,7 @@ function CalcModel() {
 
                     <Form.Group className="mb-3" controlId="formChromFront">
                         <Form.Label>Цветность лицо</Form.Label>
-                        <Form.Select aria-label="Цветность" name="chromaticity_front">
+                        <Form.Select aria-label="Цветность" name="chromaticity_front" onChange={changeHandler}>
                             <option selected disabled>Выберите цветность лица</option>
                             {data.formData?.chromList?.map((m, idx) => {
                                 return <option value={m.id} key={'mat-' + idx}>{m.name}</option>
@@ -125,7 +133,7 @@ function CalcModel() {
 
                     <Form.Group className="mb-3" controlId="formChromBack">
                         <Form.Label>Цветность оборот</Form.Label>
-                        <Form.Select aria-label="Цветность" name="chromaticity_back">
+                        <Form.Select aria-label="Цветность" name="chromaticity_back" onChange={changeHandler}>
                             <option selected disabled>Выберите цветность оборота</option>
                             {data.formData?.chromList?.map((m, idx) => {
                                 return <option value={m.id} key={'mat-' + idx}>{m.name}</option>
@@ -133,7 +141,6 @@ function CalcModel() {
                         </Form.Select>
                     </Form.Group>
 
-                    <Form>
                         <Form.Group className="mb-3" controlId="formQuantity">
                             <Form.Label>Количество</Form.Label>
                             <Form.Control type="number" name="quantity"
@@ -181,12 +188,13 @@ function CalcModel() {
                                 type="checkbox"
                                 value={p.id}
                                 name='postpress'
+                                checked={data.currentData.postpressState.has(p.id)}
                                 onChange={changeHandler}
                             />)}
                         </Form.Group>
 
                         <ButtonGroup>
-                            <Button variant="primary" id="1" type="submit">Расчет</Button>
+                            <Button variant="primary" name="getCalc" onClick={(e) => handleSubmit(e)} >Расчет</Button>
                             <Button variant="success" id="2">Расчет с
                                 сохранением</Button>
                             <Button variant="outline-success"> Сохранить в
