@@ -23,21 +23,24 @@ function BasicExample() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/sheet-calculation" href='#calc'>Листовой калькулятор</Nav.Link>
-                        <Nav.Link as={Link} to="/sheet-calculation/model/1" href='#calc'>Калькулятор наклеек</Nav.Link>
-                        <Nav.Link as={Link} to="/saved" href="#test">Сохраненные расчеты</Nav.Link>
-                        <Nav.Link as={Link} to="/test1" href="#test1">test1</Nav.Link>
-                        {/*<NavDropdown title="Dropdown" id="basic-nav-dropdown">*/}
-                        {/*    <NavDropdown.Item href="#action/3.1">Сохраненные расчеты</NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Item href="#action/3.2">*/}
-                        {/*        Another action*/}
-                        {/*    </NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Divider/>*/}
-                        {/*    <NavDropdown.Item href="#action/3.4">*/}
-                        {/*        Separated link*/}
-                        {/*    </NavDropdown.Item>*/}
-                        {/*</NavDropdown>*/}
+                        <NavDropdown title="Калькуляция" id="basic-nav-dropdown">
+                            <NavDropdown.Item as={Link} to="/sheet-calculation" href='#calc'>
+                                Универсальный листовой калькулятор
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/sheet-calculation/model/calc-1" href='#calc'>
+                                Листовые калькуляторы
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item as={Link} to="/saved" href="#test">
+                                Сохраненные расчеты
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                        {/*<Nav.Link as={Link} to="/sheet-calculation" href='#calc'>Листовой калькулятор</Nav.Link>*/}
+                        {/*<Nav.Link as={Link} to="/sheet-calculation/model/1" href='#calc'>Калькулятор наклеек</Nav.Link>*/}
+                        {/*<Nav.Link as={Link} to="/saved" href="#test">Сохраненные расчеты</Nav.Link>*/}
+                        {/*<Nav.Link as={Link} to="/test1" href="#test1">test1</Nav.Link>*/}
+
                     </Nav>
                     {userDetails.user.role >= 2 ?
                         <Nav.Link as={Link} to="/admin"> Администрирование </Nav.Link>
