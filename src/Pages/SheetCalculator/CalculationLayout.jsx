@@ -19,6 +19,8 @@ export function CalculationLayout(props) {
                         опций: <b>{props.calcData?.calculation?.postpress_total}</b> руб.</p>
                     <hr></hr>
                     <p><b>Service info:</b></p>
+                    <p>Количество
+                        на листе: <b>{props.calcData?.calculation?.multiplicity}</b></p>
                     <p>Печатных листов
                         требуется: <b>{props.calcData?.calculation?.sheets_required}</b> шт.</p>
                     <p>Себестоимость

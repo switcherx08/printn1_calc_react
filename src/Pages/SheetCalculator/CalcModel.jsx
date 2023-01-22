@@ -1,10 +1,6 @@
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {
-    fetchCalcModelList,
-    fetchCalculation,
-    fetchChromByIdList,
-    fetchMaterialsByIdList,
-    fetchPostpressByIdList,
+    fetchCalcModelList, fetchCalculation, fetchChromByIdList, fetchMaterialsByIdList, fetchPostpressByIdList,
 } from "./FetchCalcData";
 import {useEffect, useReducer} from "react";
 import Form from "react-bootstrap/Form";
@@ -42,15 +38,9 @@ function reducer(state, action) {
 
 function CalcModel() {
     let initState = {
-        allCalcModels: {},
-        modelData: {},
-        formOptions: {},
-        currentData: {
-            chromaticity_front: 0,
-            chromaticity_back: 0,
-            postpress: [0]
-        },
-        calcData: {}
+        allCalcModels: {}, modelData: {}, formOptions: {}, currentData: {
+            chromaticity_front: 0, chromaticity_back: 0, postpress: [0]
+        }, calcData: {}
     }
 
     const params = useParams();
@@ -72,7 +62,10 @@ function CalcModel() {
             Promise.all([response]).then(([models]) => {
                 dispatch({type: 'fetchAllCalcModels', payload: models})
                 dispatch({type: 'fetchModelData', payload: models[params.calcId]})
-                dispatch({type: 'resetCurrentData', payload: Object.assign(initState.currentData, models[params.calcId].default_params)})
+                dispatch({
+                    type: 'resetCurrentData',
+                    payload: Object.assign(initState.currentData, models[params.calcId].default_params)
+                })
             })
 
             Promise.all([reqMaterials, reqChrom, reqPostpress]).then(([materials, chromaticities, postpress]) => {
@@ -88,7 +81,7 @@ function CalcModel() {
 
     const changeHandler = (e) => {
         if (e.target.name === 'postpress') {
-            console.log(e.target.value);
+
             let currentPostpress = new Set(data.currentData.postpressState);
             if (!currentPostpress.has(Number(e.target.value))) {
                 currentPostpress.add(Number(e.target.value));
@@ -96,7 +89,7 @@ function CalcModel() {
                 currentPostpress.delete(Number(e.target.value));
             }
             if (currentPostpress.size === 0) {
-                currentPostpress = new Set([0])
+                currentPostpress = new Set([0]);
             }
             dispatch({
                 type: 'update', payload: {
@@ -107,7 +100,7 @@ function CalcModel() {
             });
 
         } else {
-            dispatch({type: 'update', payload: {...data.currentData, [e.target.name]: e.target.value}})
+            dispatch({type: 'update', payload: {...data.currentData, [e.target.name]: e.target.value}});
         }
 
     }
@@ -144,12 +137,10 @@ function CalcModel() {
                     <Col sm={3}>
                         <Nav variant="pills" className="flex-column" style={{paddingLeft: 25}}>
                             {Object.entries(data.allCalcModels)?.map(([k, v], idx) => {
-                                return (
-                                    <Nav.Item key={idx}>
-                                        <Nav.Link eventKey={k} onClick={resetHandler}
-                                                  as={Link} to={`/sheet-calculation/model/${k}`}>{v.name}</Nav.Link>
-                                    </Nav.Item>
-                                )
+                                return (<Nav.Item key={idx}>
+                                    <Nav.Link eventKey={k} onClick={resetHandler}
+                                              as={Link} to={`/sheet-calculation/model/${k}`}>{v.name}</Nav.Link>
+                                </Nav.Item>)
                             })}
 
                         </Nav>
@@ -169,8 +160,8 @@ function CalcModel() {
                             <Form.Group className="mb-3" controlId="formMaterial">
                                 <Form.Label>Материал:</Form.Label>
                                 <Form.Select defaultValue='plug' aria-label="Материал" name='material_id'
-                                             onChange={changeHandler}>
-                                    <option disabled value='plug'>Выберите материал</option>
+                                             onChange={changeHandler} value={data.currentData.material_id || 'plug'}>
+                                    <option selected disabled value='plug'>Выберите материал</option>
                                     {data.formOptions?.matList?.map((m, idx) => {
                                         return <option value={m.id} key={'mat-' + idx}>{m.name}</option>
                                     })}
@@ -179,7 +170,8 @@ function CalcModel() {
 
                             <Form.Group className="mb-3" controlId="formChromFront">
                                 <Form.Label>Цветность лицо</Form.Label>
-                                <Form.Select defaultValue='plug' aria-label="Цветность" name="chromaticity_front"
+                                <Form.Select value={data.currentData.chromaticity_front || 'plug'}
+                                             defaultValue='plug' aria-label="Цветность" name="chromaticity_front"
                                              onChange={changeHandler}>
                                     <option value='plug' disabled>Выберите цветность лица</option>
                                     {data.formOptions?.chromList?.map((m, idx) => {
@@ -191,7 +183,8 @@ function CalcModel() {
                             <Form.Group className="mb-3" controlId="formChromBack">
                                 <Form.Label>Цветность оборот</Form.Label>
                                 <Form.Select defaultValue='plug' aria-label="Цветность" name="chromaticity_back"
-                                             onChange={changeHandler}>
+                                             onChange={changeHandler}
+                                             value={data.currentData.chromaticity_back || 'plug'}>
                                     <option value='plug' disabled>Выберите цветность оборота</option>
                                     {data.formOptions?.chromList?.map((m, idx) => {
                                         return <option value={m.id} key={'mat-' + idx}>{m.name}</option>
@@ -204,6 +197,7 @@ function CalcModel() {
                                 <Form.Control type="number" name="quantity"
                                               placeholder="Количество" onChange={changeHandler}
                                               defaultValue={data.currentData?.quantity}
+                                              value={data.currentData?.quantity}
                                 />
                                 <Form.Text className="text-muted">
                                     Количество экземпляров тиража
@@ -215,6 +209,7 @@ function CalcModel() {
                                 <Form.Control type="number" name="width"
                                               placeholder="Ширина" onChange={changeHandler}
                                               defaultValue={data.currentData?.width}
+                                              value={data.currentData?.width}
                                 />
                                 <Form.Text className="text-muted">
                                     Не менее {data?.modelData?.min_width} мм
@@ -226,7 +221,7 @@ function CalcModel() {
                                 <Form.Control type="number" name="height"
                                               placeholder="Высота"
                                               defaultValue={data.currentData?.height}
-
+                                              value={data.currentData?.height}
                                 />
                                 <Form.Text className="text-muted">
                                     Не менее {data?.modelData?.min_height} мм
@@ -237,6 +232,7 @@ function CalcModel() {
                                 <Form.Label>Вылеты изделия</Form.Label>
                                 <Form.Control type="number" name="bleeds" placeholder="Вылеты"
                                               defaultValue={data.currentData?.bleeds}
+                                              value={data.currentData?.bleeds}
                                 />
                                 <Form.Text className="text-muted">
                                     Не менее {data?.modelData?.min_bleeds} мм
@@ -252,7 +248,7 @@ function CalcModel() {
                                     type="checkbox"
                                     value={p.id}
                                     name='postpress'
-                                    checked={data.currentData.postpressState?.has(p.id)}
+                                    checked={data.currentData.postpressState?.has(p.id) || false}
                                     onChange={changeHandler}
                                 />)}
                             </Form.Group>
