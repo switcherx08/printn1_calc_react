@@ -66,7 +66,7 @@ function CalcModel() {
                     type: 'resetCurrentData',
                     payload: Object.assign(initState.currentData, {
                         ...models[params.calcId].default_params,
-                        postpressState: new Set(models[params.calcId].default_params.postpress) // init the default postpress
+                        postpressState: new Set(models[params.calcId].default_params.postpress) // init the default postpress checkboxes
                     })
                 })
             })
