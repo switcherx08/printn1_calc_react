@@ -16,7 +16,7 @@ function reducer(state, action) {
         case 'fetchModelData':
             return {...state, modelData: action.payload};
 
-        case 'fetchformOptions':
+        case 'fetchFormOptions':
             return {...state, formOptions: action.payload};
 
         case 'fetchCalcData':
@@ -73,7 +73,7 @@ function CalcModel() {
                 setData.matList = materials;
                 setData.chromList = chromaticities;
                 setData.postpressList = postpress;
-                dispatch({type: 'fetchformOptions', payload: setData});
+                dispatch({type: 'fetchFormOptions', payload: setData});
             });
         });
     }, [params]);
