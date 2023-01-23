@@ -5,7 +5,7 @@ export function CalculationLayout(props) {
         <div>
             <Alert>
                 <div>
-                    <h5>{props?.calcName} {props.calcData?.calculation?.name}</h5>
+                    <h5>{`${props?.calcName}; `} {props.calcData?.calculation?.name}</h5>
                     <p>Тираж: {props.calcData?.calculation?.quantity} экз.</p>
                     <p>Цветность лица: {props.calcData?.calculation?.chromaticity_front}</p>
                     <p>Цветность оборота: {props.calcData?.calculation?.chromaticity_back} </p>
@@ -29,6 +29,8 @@ export function CalculationLayout(props) {
                     <p>Себестоимость
                         печати: <b>{props.calcData?.calculation?.total_cost_of_printing}</b> руб.
                     </p>
+                    <p>Стоимость допечатной
+                        подготовки: <b>{props.calcData?.calculation?.prepress_price}</b> руб.</p>
                     <p>Стоимость постпечатных
                         опций: <b>{props.calcData?.calculation?.postpress_total}</b> руб.</p>
                 </div>

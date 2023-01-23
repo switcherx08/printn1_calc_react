@@ -39,7 +39,7 @@ function reducer(state, action) {
 function CalcModel() {
     let initState = {
         allCalcModels: {}, modelData: {}, formOptions: {}, currentData: {
-            chromaticity_front: 0, chromaticity_back: 0, postpress: [0]
+            chromaticity_front: 0, chromaticity_back: 0, postpress: [0], prepress: [0]
         }, calcData: {}
     }
 
@@ -64,7 +64,10 @@ function CalcModel() {
                 dispatch({type: 'fetchModelData', payload: models[params.calcId]})
                 dispatch({
                     type: 'resetCurrentData',
-                    payload: Object.assign(initState.currentData, models[params.calcId].default_params)
+                    payload: Object.assign(initState.currentData, {
+                        ...models[params.calcId].default_params,
+                        postpressState: new Set(models[params.calcId].default_params.postpress) // init the default postpress
+                    })
                 })
             })
 
@@ -117,7 +120,8 @@ function CalcModel() {
                     chromaticity_front: data.currentData?.chromaticity_front,
                     chromaticity_back: data.currentData?.chromaticity_back,
                     material_id: data.currentData?.material_id,
-                    postpress: data.currentData?.postpress
+                    postpress: data.currentData?.postpress,
+                    prepress: data?.modelData?.prepress //semi-hardcode
                 }
                 fetchCalculation(calcRequest).then(r => dispatch({type: 'fetchCalcData', payload: r}))
         }
@@ -243,7 +247,6 @@ function CalcModel() {
                                 Постпечатная обработка:
                                 {data.formOptions?.postpressList?.map((p, idx) => <Form.Check
                                     key={`postpress-checkbox-${idx}`}
-                                    inline
                                     label={p.name}
                                     type="checkbox"
                                     value={p.id}
@@ -256,11 +259,11 @@ function CalcModel() {
                             <ButtonGroup>
                                 <Button variant="primary" name="getCalc"
                                         onClick={(e) => handleSubmit(e)}>Расчет</Button>
-                                <Button variant="success" id="2">Расчет с
-                                    сохранением</Button>
-                                <Button variant="outline-success"> Сохранить в
-                                    шаблон </Button>
-                                <Button variant="outline-danger" onClick={resetHandler}>TEST</Button>
+                                {/*<Button variant="success" id="2">Расчет с*/}
+                                {/*    сохранением</Button>*/}
+                                {/*<Button variant="outline-success"> Сохранить в*/}
+                                {/*    шаблон </Button>*/}
+                                {/*<Button variant="outline-danger" onClick={resetHandler}>TEST</Button>*/}
                             </ButtonGroup>
                         </Form>
                     </div>
