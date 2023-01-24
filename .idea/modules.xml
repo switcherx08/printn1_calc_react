@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/printn1_calc_react.iml" filepath="$PROJECT_DIR$/.idea/printn1_calc_react.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../printn1_calc/printn1_calc_react/.idea/printn1_calc_react.iml" filepath="$PROJECT_DIR$/../printn1_calc/printn1_calc_react/.idea/printn1_calc_react.iml" />
     </modules>
   </component>
 </project>
