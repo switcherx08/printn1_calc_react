@@ -1,4 +1,6 @@
-const ROOT_URL = 'http://localhost:9500/api/v1/auth'
+import apiUrl from "../config";
+
+const ROOT_URL = apiUrl + 'auth'
 
 export async function loginUser(dispatch, loginPayload) {
   const requestOptions = {
