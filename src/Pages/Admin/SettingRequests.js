@@ -1,5 +1,7 @@
 import {fetchGetReq, sendDeleteReq, sendPostReq, sendPutReq} from "../../RequestModels"
-import {apiUrl, entities} from "../config.js"
+import {entities} from "../config.js"
+import apiUrl from "../config"
+
 
 export function fetchSheetMaterialList(params){
     const url = apiUrl + entities.sheet_material

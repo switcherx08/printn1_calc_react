@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
 import {fetchGetReq, sendPostReq} from "../../RequestModels"
-import {apiUrl, entities} from "../config.js"
+import {entities} from "../config.js"
+import apiUrl from "../config"
 
 export function MaterialOptionList({x, y = 'defaultValue', callBack}) {
     const [matChoice, setMatChoice] = useState([])
-    const matUrl = 'http://127.0.0.1:9500/api/v1/sheet_material'
+    const matUrl = apiUrl + entities.sheet_material
 
     useEffect(() => {
         console.log(x, y);
@@ -32,7 +33,7 @@ export function MaterialOptionList({x, y = 'defaultValue', callBack}) {
 
 
 export function fetchCalculation(params) {
-    const url = 'http://localhost:9500/api/v1/calculation';
+    const url = apiUrl + entities.calculation;
 
     const fetchData = async () => {
         const queryParams = new URLSearchParams(params)
@@ -52,17 +53,17 @@ export function fetchCalculation(params) {
 }
 
 export function fetchChromList() {
-    const url = 'http://localhost:9500/api/v1/chromaticity';
+    const url = apiUrl + entities.chromaticity;
     return fetchGetReq(url).then(r => r?.chromaticities)
 }
 
 export function fetchPostpressList() {
-    const url = 'http://localhost:9500/api/v1/postpress/';
+    const url = apiUrl + entities.postpress;
     return fetchGetReq(url).then(r => r?.postpress_list)
 }
 
 export function fetchCalculationList(){
-    const url='http://localhost:9500/api/v1/calculation/saved'
+    const url= apiUrl + entities.calculation + '/saved'
     return fetchGetReq(url).then(r => r?.calculations)
 }
 
@@ -87,17 +88,17 @@ export function fetchPostpressByIdList(idList) {
 }
 
 export function fetchTemplateList(id = '') {
-    const url = 'http://localhost:9500/api/v1/template/'
+    const url = apiUrl + entities.template
     return fetchGetReq(url).then(r => r?.templates)
 }
 
 export function fetchCalcViaTemplate(templateId, quantity) {
-    const url = 'http://localhost:9500/api/v1/template/' + templateId + '/calc'
+    const url = apiUrl + entities.template + templateId + '/calc'
     return fetchGetReq(url, {quantity: quantity})
 }
 
 export function saveCalculation(payload) {
-    const url = 'http://localhost:9500/api/v1/calculation/'
+    const url = apiUrl + entities.calculation
     return sendPostReq(url, payload)
 }
 

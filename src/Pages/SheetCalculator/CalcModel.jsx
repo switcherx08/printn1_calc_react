@@ -131,7 +131,7 @@ function CalcModel() {
 
     // Object.values(data.allCalcModels)?.map((i, idx) => console.log(i))
     // Object.entries(data.allCalcModels)?.forEach(([k, v]) => console.log(v))
-    console.log(data)
+    console.log(process.env.REACT_APP_DOCKER_CONTAINER_NAME)
 
 
     return <>
