@@ -132,7 +132,7 @@ function CalcModel() {
     // Object.values(data.allCalcModels)?.map((i, idx) => console.log(i))
     // Object.entries(data.allCalcModels)?.forEach(([k, v]) => console.log(v))
     console.log(process.env.REACT_APP_DOCKER_CONTAINER_NAME)
-
+    console.log('lastv')
 
     return <>
         <Tab.Container id="left-tabs-example" defaultActiveKey={params.calcId}>
