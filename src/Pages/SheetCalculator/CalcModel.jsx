@@ -253,7 +253,8 @@ function CalcModel() {
                                     name='postpress'
                                     checked={data.currentData.postpressState?.has(p.id) || false}
                                     onChange={changeHandler}
-                                />)}
+                                />
+                                )}
                             </Form.Group>
 
                             <ButtonGroup>
