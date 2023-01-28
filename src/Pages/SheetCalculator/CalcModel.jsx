@@ -245,15 +245,17 @@ function CalcModel() {
 
                             <Form.Group className="mb-3" name="postpress">
                                 Постпечатная обработка:
-                                {data.formOptions?.postpressList?.map((p, idx) => <Form.Check
+                                {data.formOptions?.postpressList?.map((p, idx) => <><Form.Check
                                     key={`postpress-checkbox-${idx}`}
                                     label={p.name}
-                                    type="checkbox"
+                                    type="switch"
                                     value={p.id}
                                     name='postpress'
                                     checked={data.currentData.postpressState?.has(p.id) || false}
                                     onChange={changeHandler}
-                                />
+                                    />
+
+                                    </>
                                 )}
                             </Form.Group>
 
