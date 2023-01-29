@@ -39,7 +39,7 @@ function reducer(state, action) {
 function CalcModel() {
     let initState = {
         allCalcModels: {}, modelData: {}, formOptions: {}, currentData: {
-            chromaticity_front: 0, chromaticity_back: 0, postpress: [0], prepress: [0]
+            chromaticity_front: 0, chromaticity_back: 0, postpress: [0], prepress: [0], postpressSuboptions: {}
         }, calcData: {}
     }
 
@@ -63,8 +63,7 @@ function CalcModel() {
                 dispatch({type: 'fetchAllCalcModels', payload: models})
                 dispatch({type: 'fetchModelData', payload: models[params.calcId]})
                 dispatch({
-                    type: 'resetCurrentData',
-                    payload: Object.assign(initState.currentData, {
+                    type: 'resetCurrentData', payload: Object.assign(initState.currentData, {
                         ...models[params.calcId].default_params,
                         postpressState: new Set(models[params.calcId].default_params.postpress) // init the default postpress checkboxes
                     })
@@ -80,6 +79,10 @@ function CalcModel() {
             });
         });
     }, [params]);
+
+    function associatePostpressSuboption(subOptionId) {
+        return subOptionId
+    }
 
 
     const changeHandler = (e) => {
@@ -102,6 +105,9 @@ function CalcModel() {
                 }
             });
 
+
+        } else if (e.target.name.includes('suboptions-postpress-')) {
+            dispatch({type: 'update', payload: {...data.currentData, ...{postpressSuboptions: {[e.target.name]: e.target.value}}}})
         } else {
             dispatch({type: 'update', payload: {...data.currentData, [e.target.name]: e.target.value}});
         }
@@ -129,11 +135,7 @@ function CalcModel() {
 
     const resetHandler = () => dispatch({type: 'resetCurrentData', payload: initState.currentData})
 
-    // Object.values(data.allCalcModels)?.map((i, idx) => console.log(i))
-    // Object.entries(data.allCalcModels)?.forEach(([k, v]) => console.log(v))
-    console.log(process.env.REACT_APP_DOCKER_CONTAINER_NAME)
-    console.log('lastv')
-
+    console.log(data?.currentData)
     return <>
         <Tab.Container id="left-tabs-example" defaultActiveKey={params.calcId}>
             <div className="container-sm">
@@ -253,10 +255,17 @@ function CalcModel() {
                                     name='postpress'
                                     checked={data.currentData.postpressState?.has(p.id) || false}
                                     onChange={changeHandler}
-                                    />
-
-                                    </>
-                                )}
+                                />
+                                    <Form.Select name={`suboptions-postpress-${p.id}`} defaultValue={'plug'}
+                                                 hidden={!(p?.suboptions.length > 0 && data.currentData.postpressState?.has(p.id))}
+                                                 onChange={changeHandler}>
+                                        <option value="plug" disabled>Выберите опцию</option>
+                                        {p.suboptions.map((s, idx) => {
+                                            return <option key={`suboption-${idx}`}
+                                                           value={s.id}>{s.name}</option>
+                                        })}
+                                    </Form.Select>
+                                </>)}
                             </Form.Group>
 
                             <ButtonGroup>

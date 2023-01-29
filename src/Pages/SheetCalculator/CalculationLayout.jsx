@@ -33,6 +33,8 @@ export function CalculationLayout(props) {
                         подготовки: <b>{props.calcData?.calculation?.prepress_price}</b> руб.</p>
                     <p>Стоимость постпечатных
                         опций: <b>{props.calcData?.calculation?.postpress_total}</b> руб.</p>
+                    <p>Стоимость материалов
+                        постпечатной обработки: <b>{props.calcData?.calculation?.postpress_materials_cost}</b> руб.</p>
                 </div>
             </Alert>
         </div>
