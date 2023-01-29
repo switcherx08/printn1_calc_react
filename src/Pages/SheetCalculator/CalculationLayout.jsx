@@ -5,7 +5,7 @@ export function CalculationLayout(props) {
         <div>
             <Alert>
                 <div>
-                    <h5>{`${props?.calcName}; `} {props.calcData?.calculation?.name}</h5>
+                    <h5>{props.calcData?.calculation ? props?.calcName + ';': ''} {props.calcData?.calculation?.name}</h5>
                     <p>Тираж: {props.calcData?.calculation?.quantity} экз.</p>
                     <p>Цветность лица: {props.calcData?.calculation?.chromaticity_front}</p>
                     <p>Цветность оборота: {props.calcData?.calculation?.chromaticity_back} </p>
