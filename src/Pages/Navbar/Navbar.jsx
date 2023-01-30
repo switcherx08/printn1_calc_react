@@ -13,8 +13,10 @@ function BasicExample() {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        logout(dispatch) //call the logout action
-        return navigate("/login");
+        logout(dispatch).then(() => {
+            navigate("/login")
+            window.location.reload()
+        }) //call the logout action
     }
     return (
         <Navbar bg="light" expand="lg">
@@ -24,17 +26,17 @@ function BasicExample() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <NavDropdown title="Калькуляция" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/sheet-calculation" href='#calc'>
-                                Универсальный листовой калькулятор
-                            </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/sheet-calculation/model/calc-1" href='#calc'>
                                 Листовые калькуляторы
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider/>
-                            <NavDropdown.Item as={Link} to="/saved" href="#test">
-                                Сохраненные расчеты
-                            </NavDropdown.Item>
+                            {/*<NavDropdown.Item as={Link} to="/sheet-calculation" href='#calc'>*/}
+                            {/*    Универсальный листовой калькулятор*/}
+                            {/*</NavDropdown.Item>*/}
+                            {/*<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
+                            {/*<NavDropdown.Divider/>*/}
+                            {/*<NavDropdown.Item as={Link} to="/saved" href="#test">*/}
+                            {/*    Сохраненные расчеты*/}
+                            {/*</NavDropdown.Item>*/}
                         </NavDropdown>
                         {/*<Nav.Link as={Link} to="/sheet-calculation" href='#calc'>Листовой калькулятор</Nav.Link>*/}
                         {/*<Nav.Link as={Link} to="/sheet-calculation/model/1" href='#calc'>Калькулятор наклеек</Nav.Link>*/}
@@ -47,9 +49,9 @@ function BasicExample() {
                         : null}
                     {userDetails.user ? <Nav className="justify-content-end">
                             <Nav.Link> {userDetails?.user.name}</Nav.Link>
-                            <Nav.Link onClick={handleLogout}>Выйти</Nav.Link>
+                            <Nav.Link as={Link} to="/login" onClick={handleLogout}>Выйти</Nav.Link>
                         </Nav>
-                        :  <Nav.Link as={Link} to="/login">Войти</Nav.Link>}
+                        :  <Nav.Link as={Link} to="/login"> Войти</Nav.Link>}
 
                 </Navbar.Collapse>
             </Container>
