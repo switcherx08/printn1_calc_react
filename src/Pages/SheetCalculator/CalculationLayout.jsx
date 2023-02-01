@@ -1,6 +1,7 @@
 import {Alert} from "react-bootstrap";
 
 export function CalculationLayout(props) {
+    const isAdmin = JSON.parse(localStorage.getItem('currentUser'))?.user.role
     return (
         <div>
             <Alert>
@@ -15,9 +16,9 @@ export function CalculationLayout(props) {
                     <hr></hr>
                     <p>Стоимость за единицу: <b>{props.calcData?.calculation?.price}</b> руб.</p>
                     <p>Стоимость тиража: <b>{props.calcData?.calculation?.total}</b> руб.</p>
-                    <p>Стоимость постпечатных
-                        опций: <b>{props.calcData?.calculation?.postpress_total}</b> руб.</p>
+
                     <hr></hr>
+                    <div hidden={isAdmin < 2}>
                     <p><b>Service info:</b></p>
                     <p>Количество
                         на листе: <b>{props.calcData?.calculation?.multiplicity}</b></p>
@@ -36,6 +37,7 @@ export function CalculationLayout(props) {
                     <p>Стоимость материалов
                         постпечатной обработки: <b>{props.calcData?.calculation?.postpress_materials_cost}</b> руб.</p>
                 </div>
+                    </div>
             </Alert>
         </div>
     )
