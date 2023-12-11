@@ -10,6 +10,7 @@ import AdminPanel from "./Pages/Admin/AdminPanel";
 import {AuthProvider} from "./Pages/Auth/AuthContext";
 import OldSheetMaterialSettings from "./Pages/Admin/_DEPRECATED_MaterialSettings";
 import AdminRoute from "./Pages/Admin/AdminRoute";
+import MultipageCalculation from "./Pages/MultipageCalculator/Calculation";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                     <Routes>
                         <Route path='/sheet-calculation' element={< Calculator/>}/>
                         <Route path='/sheet-calculation/model/:calcId' element={<CalcModel />} />
+                        <Route path='/multipage' element={<MultipageCalculation/>} />
                         <Route path='/saved' element={< SavedCalculations/>}/>
                         <Route path='/test1' element={<OldSheetMaterialSettings />}/>
                         <Route element={<AdminRoute/>}>
