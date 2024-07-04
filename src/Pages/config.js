@@ -1,6 +1,6 @@
 let apiUrl = 'http://127.0.0.1:9500/api/v1/';
 if (process.env.NODE_ENV === 'production'){
-    apiUrl = 'http://83.222.8.15:9500/api/v1/';
+    apiUrl = 'https://erp.printn1.ru/api/v1/';
 }
 
 export default apiUrl;
