@@ -1,0 +1,21 @@
+.ellipsis {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+    margin-left: 5px;
+}
+
+.ellipsis:hover {
+    text-decoration: underline;
+}
+
+.ellipsis.clicked {
+    text-decoration: none;
+    color: black;
+    cursor: default;
+}
+
+.print-sheets {
+    margin-left: 10px;
+    font-weight: bold;
+}

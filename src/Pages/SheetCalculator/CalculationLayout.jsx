@@ -1,15 +1,25 @@
 import {Alert} from "react-bootstrap";
-
+import {useState} from "react";
+import './styles/CalculationLayout.css'
 export function CalculationLayout(props) {
     const isAdmin = JSON.parse(localStorage.getItem('currentUser'))?.user.role
-    return (
-        <div>
+    const [showPrintSheets, setShowPrintSheets] = useState(false);
+
+    const handleEllipsisClick = () => {
+        setShowPrintSheets(!showPrintSheets);
+    };
+    const calculateTotalCost = () => {
+        return (props.calcData?.calculation?.total_cost_of_printing + props.calcData?.calculation?.postpress_materials_cost + props.calcData?.calculation?.total_cost_of_materials).toFixed(2)
+    }
+    return (<div>
             <Alert>
                 <div>
                     <h5>{props.calcData?.calculation ? props?.calcName + ';' : ''} {props.calcData?.calculation?.name}</h5>
-                    <p>Тираж: {props.calcData?.calculation?.quantity} экз.</p>
-                    <p>Стоимость за единицу: <b>{props.calcData?.calculation?.price}</b> руб.</p>
+                    <p>
+                        Тираж: {props.calcData?.calculation?.quantity} экз.
+                    </p>
                     <p>Стоимость тиража: <b>{props.calcData?.calculation?.total}</b> руб.</p>
+                    <p>Стоимость за единицу: <b>{props.calcData?.calculation?.price}</b> руб.</p>
 
                     <hr></hr>
                     <div hidden={isAdmin < 2}>
@@ -33,7 +43,13 @@ export function CalculationLayout(props) {
                         <p>Себестоимость
                             печати: <b>{props.calcData?.calculation?.total_cost_of_printing}</b> руб.
                         </p>
-                        <p>Себестоимость постпечатных материалов: <b>{props.calcData?.calculation?.postpress_materials_cost}</b> руб.
+                        <p>Себестоимость постпечатных
+                            материалов: <b>{props.calcData?.calculation?.postpress_materials_cost}</b> руб.
+                        </p>
+                        <p>Общая себестоимость:
+                            <b>
+                                {calculateTotalCost() ? calculateTotalCost() : ""}
+                            </b> руб.
                         </p>
                         {/*<p>Стоимость препресс: <b>{props.calcData?.calculation?.prepress_price}</b> руб.</p>*/}
                         {/*<p>Стоимость постпечатных*/}
@@ -42,6 +58,5 @@ export function CalculationLayout(props) {
                     </div>
                 </div>
             </Alert>
-        </div>
-    )
+        </div>)
 }
